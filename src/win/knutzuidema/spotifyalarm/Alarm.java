@@ -1,6 +1,6 @@
 package win.knutzuidema.spotifyalarm;
 
 public class Alarm {
-    public static final String ACCESS_CODE = "-XswVOSN2DEtJrHYQwxhqok4SgX6Uk5R9-LAkSoLpYDOZAs3sSeGcPbTFB9pkctzpYvyQxnHahvEtRN5obApHGT2Ecrdm8UYf0TMY62ngkciarGA1BoirBLbQfFjne8Mk-FWIstjLkDIHVXloH9ARcdFQF5jDmwZOu2ba5DmWfFtdb09dhkjAGjA2YlgRBDvm7BSXWIfAgxr1zFHsJehfrwpwWArrGF9TBS3ni1tgJV2kX3wwFKpePVKQMWfCZN0VZsjDxt13R6BX9cJKXxHAV2V83MNnIBEsDRXG90p0oUpVczBZE1-FCTWWP31lmpaEzcxltoG8qxWDX4OyEwLW0VIdhYZcQlC9iKnarB5EgUt_gVi";
+
 
 }

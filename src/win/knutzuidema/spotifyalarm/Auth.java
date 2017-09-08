@@ -1,11 +1,13 @@
 package win.knutzuidema.spotifyalarm;
 
+import org.apache.http.Header;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 import win.knutzuidema.spotifyalarm.enums.Config;
@@ -15,9 +17,9 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
-public class Auth {
+class Auth {
 
-    public String getRefreshToken(){
+    private String getRefreshToken(){
         CloseableHttpClient httpClient = HttpClients.createDefault();
 
         HttpPost post = new HttpPost("https://accounts.spotify.com/api/token");
@@ -42,6 +44,7 @@ public class Auth {
             while(isr.ready()){
                 stringResponse.append((char) isr.read());
             }
+            System.out.println(stringResponse);
             JSONObject json = new JSONObject(stringResponse.toString());
 
             return json.getString("refresh_token");
@@ -51,7 +54,7 @@ public class Auth {
         }
     }
 
-    public String getAccessToken(){
+    private String getAccessToken(){
         CloseableHttpClient httpClient = HttpClients.createDefault();
 
         HttpPost post = new HttpPost("https://accounts.spotify.com/api/token");
@@ -67,8 +70,6 @@ public class Auth {
 
             CloseableHttpResponse response = httpClient.execute(post);
 
-            System.out.println(response.getStatusLine().getReasonPhrase());
-
             InputStreamReader isr = new InputStreamReader(response.getEntity().getContent());
 
             StringBuilder stringResponse = new StringBuilder();
@@ -82,5 +83,9 @@ public class Auth {
             e.printStackTrace();
             return null;
         }
+    }
+
+    Header bearerAuth(){
+        return new BasicHeader("Authorization", "Bearer " + getAccessToken());
     }
 }

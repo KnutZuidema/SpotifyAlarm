@@ -6,7 +6,8 @@ public enum Config {
     USER_AGENT("win.knutzuidema.spotifyalarm//v0.1: SpotifyAlarm (by Knut Zuidema)"),
     CLIENT_ID("93914c11455b48129810b4d273d4dbe6"),
     CLIENT_SECRET("989a20d3c73540919bac06a856564948"),
-    REDIRECT_URI("https://www.spotify.com");
+    REDIRECT_URI("https://www.spotify.com"),
+    API_URI("https://api.spotify.com/v1");
 
     private String value;
 
