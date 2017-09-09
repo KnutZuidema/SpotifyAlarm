@@ -17,6 +17,7 @@ public class Album extends SpotifyObject{
     private String releaseDate;
     private DatePrecision releaseDatePrecision;
     private PagingTrack tracks;
+    private int popularity;
 
     public Album(JSONObject json){
         super(json);
@@ -51,6 +52,7 @@ public class Album extends SpotifyObject{
         this.releaseDate = json.getString("release_date");
         this.releaseDatePrecision = DatePrecision.valueOf(json.getString("release_date_precision".toUpperCase()));
         this.tracks = new PagingTrack(json.getJSONObject("tracks"));
+        this.popularity = json.getInt("popularity");
     }
 
     public AlbumType getType() {
@@ -95,5 +97,9 @@ public class Album extends SpotifyObject{
 
     public PagingTrack getTracks() {
         return tracks;
+    }
+
+    public int getPopularity() {
+        return popularity;
     }
 }

@@ -15,6 +15,7 @@ public class Track extends SpotifyObject{
     private TrackLink linkedFrom;
     private String previewURL;
     private int trackNumber;
+    private int popularity;
 
     public Track(JSONObject json){
         super(json);
@@ -39,6 +40,7 @@ public class Track extends SpotifyObject{
         this.linkedFrom = new TrackLink(json.getJSONObject("linked_from"));
         this.previewURL = json.getString("preview_url");
         this.trackNumber = json.getInt("track_number");
+        this.popularity = json.getInt("popularity");
     }
 
     public Album getAlbum() {
@@ -83,5 +85,9 @@ public class Track extends SpotifyObject{
 
     public int getTrackNumber() {
         return trackNumber;
+    }
+
+    public int getPopularity() {
+        return popularity;
     }
 }

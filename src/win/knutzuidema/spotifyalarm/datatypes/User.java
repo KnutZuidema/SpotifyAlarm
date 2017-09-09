@@ -3,43 +3,46 @@ package win.knutzuidema.spotifyalarm.datatypes;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class Artist extends SpotifyObject{
+public class User extends SpotifyObject{
     private int followers;
-    private String[] genres;
     private Image[] images;
-    private int popularity;
 
-    public Artist(JSONObject json){
+    public User(JSONObject json){
         super(json);
         this.followers = json.getJSONObject("followers").getInt("total");
-        JSONArray array = json.getJSONArray("genres");
-        String[] genres = new String[array.length()];
-        for(int i = 0; i < array.length(); i++){
-            genres[i] = (String) array.get(i);
-        }
-        this.genres = genres;
-        array = json.getJSONArray("images");
+        JSONArray array = json.getJSONArray("images");
         Image[] images = new Image[array.length()];
         for(int i = 0; i < array.length(); i++){
             images[i] = new Image((JSONObject) array.get(i));
         }
         this.images = images;
-        this.popularity = json.getInt("popularity");
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public JSONObject getExternalURLs() {
+        return externalURLs;
     }
 
     public int getFollowers() {
         return followers;
     }
 
-    public String[] getGenres() {
-        return genres;
+    public String getHref() {
+        return href;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public Image[] getImages() {
         return images;
     }
 
-    public int getPopularity() {
-        return popularity;
+    public String getUri() {
+        return uri;
     }
 }

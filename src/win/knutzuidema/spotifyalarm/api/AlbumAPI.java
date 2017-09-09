@@ -5,49 +5,52 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import win.knutzuidema.spotifyalarm.datatypes.Album;
+import win.knutzuidema.spotifyalarm.datatypes.PagingAlbum;
+import win.knutzuidema.spotifyalarm.datatypes.Track;
 import win.knutzuidema.spotifyalarm.enums.AlbumType;
 
 public class AlbumAPI {
 
-    public JSONObject getAlbum(String id){
-         return API.getJSONfromResponse(
-                 API.getResponse(
-                         API.getBasicRequest(
-                                 new HttpGet(), "/albums/" + id)));
+    public Album getAlbum(String id){
+         return new Album(
+                 API.getJSONfromResponse(
+                         API.getResponse(
+                                 API.getBasicRequest(
+                                         new HttpGet(), "/albums/" + id))));
     }
 
-    public JSONObject getAlbums(String... ids){
+    public Album[] getAlbums(String... ids){
         if(ids.length > 20){
             throw new IllegalArgumentException("max of 20 albums");
         }
-        StringBuilder endpoint = new StringBuilder();
-        endpoint.append("?ids=");
+
+        Album[] albums = new Album[ids.length];
         for(int i = 0; i < ids.length; i++){
-            endpoint.append(ids[i]);
-            if(i < ids.length - 1){
-                endpoint.append(',');
-            }
+            albums[i] = getAlbum(ids[i]);
         }
 
-        return getAlbum(endpoint.toString());
+        return albums;
     }
 
-    public JSONObject getTracks(String id){
-        return getAlbum(id + "/tracks");
+    public Track[] getTracks(String id){
+        return getAlbum(id).getTracks().getItems();
     }
 
-    public JSONObject getTracks(String id, int limit, int offset){
+    public Track[] getTracks(String id, int limit, int offset){
         if(limit < 1 || limit > 50){
             throw new IllegalArgumentException("limit must be between 1 and 50");
         }
         return getTracks(id + "?limit=" + limit + "&offset=" + offset);
     }
 
-    public JSONObject getArtistAlbums(String id){
-        return API.getJSONfromResponse(
-                API.getResponse(
-                        API.getBasicRequest(
-                                new HttpGet(), "/artist/" + id + "/albums")));
+    public Album[] getArtistAlbums(String id){
+        return new PagingAlbum(
+                API.getJSONfromResponse(
+                        API.getResponse(
+                                API.getBasicRequest(
+                                        new HttpGet(), "/artist/" + id + "/albums"))))
+                .getItems();
     }
 
     public JSONObject getArtistAlbums(String id, AlbumType... types){
