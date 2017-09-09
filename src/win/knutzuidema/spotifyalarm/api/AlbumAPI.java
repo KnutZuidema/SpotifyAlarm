@@ -1,6 +1,5 @@
-package win.knutzuidema.spotifyalarm;
+package win.knutzuidema.spotifyalarm.api;
 
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
@@ -8,14 +7,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import win.knutzuidema.spotifyalarm.enums.AlbumType;
 
-import java.io.InputStreamReader;
-
-public class Albums {
+public class AlbumAPI {
 
     public JSONObject getAlbum(String id){
-         return Alarm.getJSONfromResponse(
-                 Alarm.getResponse(
-                         Alarm.getBasicRequest(
+         return API.getJSONfromResponse(
+                 API.getResponse(
+                         API.getBasicRequest(
                                  new HttpGet(), "/albums/" + id)));
     }
 
@@ -47,9 +44,9 @@ public class Albums {
     }
 
     public JSONObject getArtistAlbums(String id){
-        return Alarm.getJSONfromResponse(
-                Alarm.getResponse(
-                        Alarm.getBasicRequest(
+        return API.getJSONfromResponse(
+                API.getResponse(
+                        API.getBasicRequest(
                                 new HttpGet(), "/artist/" + id + "/albums")));
     }
 
@@ -63,9 +60,9 @@ public class Albums {
             }
         }
 
-        return Alarm.getJSONfromResponse(
-                Alarm.getResponse(
-                        Alarm.getBasicRequest(
+        return API.getJSONfromResponse(
+                API.getResponse(
+                        API.getBasicRequest(
                                 new HttpGet(), endpoint.toString())));
     }
 
@@ -74,9 +71,9 @@ public class Albums {
             throw new IllegalArgumentException("limit must be between 1 and 50");
         }
 
-        return Alarm.getJSONfromResponse(
-                Alarm.getResponse(
-                        Alarm.getBasicRequest(
+        return API.getJSONfromResponse(
+                API.getResponse(
+                        API.getBasicRequest(
                                 new HttpGet(), "/artists/" + id + "/albums" +
                                         "?limit=" + limit + "&offset=" + offset)));
     }
@@ -95,16 +92,16 @@ public class Albums {
         }
         endpoint.append("&limit=").append(limit).append("&offset=").append(offset);
 
-        return Alarm.getJSONfromResponse(
-                Alarm.getResponse(
-                        Alarm.getBasicRequest(
+        return API.getJSONfromResponse(
+                API.getResponse(
+                        API.getBasicRequest(
                                 new HttpGet(), endpoint.toString())));
     }
 
     public JSONObject getNewReleases(){
-        return Alarm.getJSONfromResponse(
-                Alarm.getResponse(
-                        Alarm.getBasicRequest(
+        return API.getJSONfromResponse(
+                API.getResponse(
+                        API.getBasicRequest(
                                 new HttpGet(), "/browse/new-releases")));
     }
 
@@ -117,9 +114,9 @@ public class Albums {
                 "?limit=" + limit +
                 "&offset=" + offset;
 
-        return Alarm.getJSONfromResponse(
-                Alarm.getResponse(
-                        Alarm.getBasicRequest(
+        return API.getJSONfromResponse(
+                API.getResponse(
+                        API.getBasicRequest(
                                 new HttpGet(), endpoint)));
     }
 
@@ -138,9 +135,9 @@ public class Albums {
             }
         }
 
-        Alarm.getJSONfromResponse(
-                Alarm.getResponse(
-                        Alarm.getBasicRequest(
+        API.getJSONfromResponse(
+                API.getResponse(
+                        API.getBasicRequest(
                                 new HttpPut(), endpoint.toString())));
     }
 
@@ -148,9 +145,9 @@ public class Albums {
         if(limit < 1 || limit > 50){
             throw new IllegalArgumentException("limit must be between 1 and 50");
         }
-        return Alarm.getJSONfromResponse(
-                Alarm.getResponse(
-                        Alarm.getBasicRequest(
+        return API.getJSONfromResponse(
+                API.getResponse(
+                        API.getBasicRequest(
                                 new HttpPut(), "/me/albums?limit=" + limit + "&offset=" + offset)));
     }
 
@@ -170,9 +167,9 @@ public class Albums {
             }
         }
 
-        Alarm.getJSONfromResponse(
-                Alarm.getResponse(
-                        Alarm.getBasicRequest(
+        API.getJSONfromResponse(
+                API.getResponse(
+                        API.getBasicRequest(
                                 new HttpDelete(), endpoint.toString())));
     }
 
@@ -192,9 +189,9 @@ public class Albums {
             }
         }
 
-        return Alarm.getArrayFromResponse(
-                Alarm.getResponse(
-                        Alarm.getBasicRequest(
+        return API.getArrayFromResponse(
+                API.getResponse(
+                        API.getBasicRequest(
                                 new HttpGet(), endpoint.toString())));
     }
 }

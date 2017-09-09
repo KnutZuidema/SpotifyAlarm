@@ -1,4 +1,4 @@
-package win.knutzuidema.spotifyalarm;
+package win.knutzuidema.spotifyalarm.api;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
 
-public class Alarm {
+public class API {
 
     public static HttpResponse getResponse(HttpRequestBase request){
         CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -28,7 +28,7 @@ public class Alarm {
         try {
             type.setURI(new URI(Config.API_URI.toString() + endpoint));
 
-            type.addHeader(new Auth().bearerAuth());
+            type.addHeader(new Authentication().bearerAuth());
 
             return type;
         }catch(Exception e){

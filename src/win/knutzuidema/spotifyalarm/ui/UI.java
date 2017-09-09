@@ -2,14 +2,12 @@ package win.knutzuidema.spotifyalarm.ui;
 
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import win.knutzuidema.spotifyalarm.Player;
+import win.knutzuidema.spotifyalarm.api.PlayerAPI;
 
 public class UI extends Application {
     public static void main(String[] args){
@@ -22,7 +20,7 @@ public class UI extends Application {
         Button playpause = new Button("PLAY/PAUSE");
         Button next = new Button(">>");
         Button previous = new Button("<<");
-        Player player = new Player();
+        PlayerAPI player = new PlayerAPI();
 
         playpause.setOnAction(event -> {
             if(player.isPlaying()) player.pause();

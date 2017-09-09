@@ -1,4 +1,4 @@
-package win.knutzuidema.spotifyalarm;
+package win.knutzuidema.spotifyalarm.api;
 
 import org.apache.http.Header;
 import org.apache.http.NameValuePair;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
-class Auth {
+class Authentication {
 
     private String getRefreshToken(){
         CloseableHttpClient httpClient = HttpClients.createDefault();
