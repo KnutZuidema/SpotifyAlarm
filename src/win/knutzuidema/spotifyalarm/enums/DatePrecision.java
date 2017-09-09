@@ -1,10 +1,9 @@
 package win.knutzuidema.spotifyalarm.enums;
 
-public enum AlbumType {
-    ALBUM,
-    SINGLE,
-    APPEARS_ON,
-    COMPILATION;
+public enum DatePrecision {
+    YEAR,
+    MONTH,
+    DAY;
 
     @Override
     public String toString(){

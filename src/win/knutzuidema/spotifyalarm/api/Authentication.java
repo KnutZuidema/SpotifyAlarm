@@ -25,7 +25,7 @@ class Authentication {
         HttpPost post = new HttpPost("https://accounts.spotify.com/api/token");
 
         post.addHeader("User-Agent", Config.USER_AGENT.toString());
-        post.addHeader("Authorization", "Basic " + Base64.getEncoder().encodeToString((Config.CLIENT_ID.toString() + ":" + Config.CLIENT_SECRET.toString()).getBytes()));
+        post.addHeader(basicAuth());
 
         List<NameValuePair> nvps = new ArrayList<>();
         nvps.add(new BasicNameValuePair("grant_type", "authorization_code"));
@@ -59,7 +59,7 @@ class Authentication {
 
         HttpPost post = new HttpPost("https://accounts.spotify.com/api/token");
 
-        post.addHeader("Authorization", "Basic " + Base64.getEncoder().encodeToString((Config.CLIENT_ID.toString() + ":" + Config.CLIENT_SECRET.toString()).getBytes()));
+        post.addHeader(basicAuth());
 
         List<NameValuePair> nvps = new ArrayList<>(2);
         nvps.add(new BasicNameValuePair("grant_type", "refresh_token"));
@@ -87,5 +87,10 @@ class Authentication {
 
     Header bearerAuth(){
         return new BasicHeader("Authorization", "Bearer " + getAccessToken());
+    }
+
+    Header basicAuth(){
+        return new BasicHeader("Authorization","Basic " +
+                Base64.getEncoder().encodeToString((Config.CLIENT_ID.toString() + ":" + Config.CLIENT_SECRET.toString()).getBytes()));
     }
 }

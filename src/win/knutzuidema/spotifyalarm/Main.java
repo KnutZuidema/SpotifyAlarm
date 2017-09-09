@@ -4,6 +4,7 @@ import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import win.knutzuidema.spotifyalarm.enums.Config;
+import win.knutzuidema.spotifyalarm.enums.RepeatState;
 import win.knutzuidema.spotifyalarm.ui.UI;
 
 import java.awt.*;

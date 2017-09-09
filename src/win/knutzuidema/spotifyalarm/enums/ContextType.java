@@ -1,10 +1,9 @@
 package win.knutzuidema.spotifyalarm.enums;
 
-public enum AlbumType {
+public enum ContextType {
     ALBUM,
-    SINGLE,
-    APPEARS_ON,
-    COMPILATION;
+    ARTIST,
+    PLAYLIST;
 
     @Override
     public String toString(){
