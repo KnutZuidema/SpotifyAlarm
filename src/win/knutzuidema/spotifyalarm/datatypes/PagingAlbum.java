@@ -2,8 +2,13 @@ package win.knutzuidema.spotifyalarm.datatypes;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import win.knutzuidema.spotifyalarm.interfaces.Serializer;
 
-public class PagingAlbum extends Paging{
+import java.io.Serializable;
+
+public class PagingAlbum extends Paging implements Serializable, Serializer {
+    private static final long serialVersionUID = 0x201;
+
     private Album[] items;
 
     public PagingAlbum(JSONObject json){

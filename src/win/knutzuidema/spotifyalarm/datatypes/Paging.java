@@ -2,7 +2,11 @@ package win.knutzuidema.spotifyalarm.datatypes;
 
 import org.json.JSONObject;
 
-public class Paging {
+import java.io.Serializable;
+
+public abstract class Paging implements Serializable{
+    private static final long serialVersionUID = 0x200;
+
     protected String href;
     protected int limit;
     protected String next;

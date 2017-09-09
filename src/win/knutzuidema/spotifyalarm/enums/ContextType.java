@@ -1,6 +1,8 @@
 package win.knutzuidema.spotifyalarm.enums;
 
-public enum ContextType {
+import java.io.Serializable;
+
+public enum ContextType implements Serializable{
     ALBUM,
     ARTIST,
     PLAYLIST;

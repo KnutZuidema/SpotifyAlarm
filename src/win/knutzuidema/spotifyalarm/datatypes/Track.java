@@ -2,15 +2,20 @@ package win.knutzuidema.spotifyalarm.datatypes;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import win.knutzuidema.spotifyalarm.interfaces.Serializer;
 
-public class Track extends SpotifyObject{
+import java.io.Serializable;
+
+public class Track extends SpotifyObject implements Serializable, Serializer {
+    private static final long serialVersionUID = 0x104;
+
     private Album album;
     private Artist[] artists;
     private String[] availableMarkets;
     private int discNumber;
     private int duration;
     private boolean isExplicit;
-    private JSONObject externalIDs;
+    private transient JSONObject externalIDs;
     private boolean isPlayable;
     private TrackLink linkedFrom;
     private String previewURL;

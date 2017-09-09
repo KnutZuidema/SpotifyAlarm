@@ -2,12 +2,17 @@ package win.knutzuidema.spotifyalarm.datatypes;
 
 import org.json.JSONObject;
 import win.knutzuidema.spotifyalarm.enums.ContextType;
+import win.knutzuidema.spotifyalarm.interfaces.Serializer;
 
-public class Context {
+import java.io.Serializable;
+
+public class Context implements Serializable, Serializer {
+    private static final long serialVersionUID = 0x600;
+
     private ContextType type;
     private String uri;
     private String href;
-    private JSONObject externalURLs;
+    private transient JSONObject externalURLs;
 
     public Context(JSONObject json){
         this.type = ContextType.valueOf(json.getString("type").toUpperCase());

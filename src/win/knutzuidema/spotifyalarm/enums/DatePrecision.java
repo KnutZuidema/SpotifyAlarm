@@ -1,6 +1,8 @@
 package win.knutzuidema.spotifyalarm.enums;
 
-public enum DatePrecision {
+import java.io.Serializable;
+
+public enum DatePrecision implements Serializable{
     YEAR,
     MONTH,
     DAY;

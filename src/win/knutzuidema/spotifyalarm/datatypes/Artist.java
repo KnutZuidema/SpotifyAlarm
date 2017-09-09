@@ -2,8 +2,13 @@ package win.knutzuidema.spotifyalarm.datatypes;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import win.knutzuidema.spotifyalarm.interfaces.Serializer;
 
-public class Artist extends SpotifyObject{
+import java.io.Serializable;
+
+public class Artist extends SpotifyObject implements Serializable, Serializer {
+    private static final long serialVersionUID = 0x102;
+
     private int followers;
     private String[] genres;
     private Image[] images;

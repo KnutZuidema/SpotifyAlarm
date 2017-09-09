@@ -4,13 +4,18 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import win.knutzuidema.spotifyalarm.enums.AlbumType;
 import win.knutzuidema.spotifyalarm.enums.DatePrecision;
+import win.knutzuidema.spotifyalarm.interfaces.Serializer;
 
-public class Album extends SpotifyObject{
+import java.io.Serializable;
+
+public class Album extends SpotifyObject implements Serializable, Serializer{
+    private static final long serialVersionUID = 0x101;
+
     private AlbumType type;
     private Artist[] artists;
     private String[] availableMarkets;
-    private JSONArray copyrights;
-    private JSONObject externalIDs;
+    private transient JSONArray copyrights;
+    private transient JSONObject externalIDs;
     private String[] genres;
     private Image[] images;
     private String label;

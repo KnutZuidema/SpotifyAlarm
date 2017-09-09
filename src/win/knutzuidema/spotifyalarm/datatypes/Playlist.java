@@ -2,8 +2,13 @@ package win.knutzuidema.spotifyalarm.datatypes;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import win.knutzuidema.spotifyalarm.interfaces.Serializer;
 
-public class Playlist extends SpotifyObject{
+import java.io.Serializable;
+
+public class Playlist extends SpotifyObject implements Serializable, Serializer {
+    private static final long serialVersionUID = 0x103;
+
     private boolean isCollaborative;
     private String description;
     private int followers;

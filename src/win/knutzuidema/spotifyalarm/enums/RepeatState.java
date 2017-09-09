@@ -1,6 +1,8 @@
 package win.knutzuidema.spotifyalarm.enums;
 
-public enum RepeatState {
+import java.io.Serializable;
+
+public enum RepeatState implements Serializable{
     OFF,
     TRACK,
     CONTEXT;

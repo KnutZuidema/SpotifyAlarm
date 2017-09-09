@@ -2,12 +2,16 @@ package win.knutzuidema.spotifyalarm.datatypes;
 
 import org.json.JSONObject;
 
-public abstract class SpotifyObject {
+import java.io.Serializable;
+
+public abstract class SpotifyObject implements Serializable{
+    private static final long serialVersionUID = 0x100;
+
     protected String id;
     protected String uri;
     protected String name;
     protected String href;
-    protected JSONObject externalURLs;
+    protected transient JSONObject externalURLs;
 
     protected SpotifyObject(JSONObject json){
         this.id = json.getString("id");

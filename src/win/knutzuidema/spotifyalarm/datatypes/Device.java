@@ -1,8 +1,13 @@
 package win.knutzuidema.spotifyalarm.datatypes;
 
 import org.json.JSONObject;
+import win.knutzuidema.spotifyalarm.interfaces.Serializer;
 
-public class Device {
+import java.io.Serializable;
+
+public class Device implements Serializable, Serializer {
+    private static final long serialVersionUID = 0x500;
+
     private String id;
     private String name;
     private String type;

@@ -1,9 +1,14 @@
 package win.knutzuidema.spotifyalarm.datatypes;
 
 import org.json.JSONObject;
+import win.knutzuidema.spotifyalarm.interfaces.Serializer;
 
-public class TrackLink {
-    private JSONObject externalURLs;
+import java.io.Serializable;
+
+public class TrackLink implements Serializable, Serializer{
+    private static final long serialVersionUID = 0x300;
+
+    private transient JSONObject externalURLs;
     private String href;
     private String id;
     private String uri;
