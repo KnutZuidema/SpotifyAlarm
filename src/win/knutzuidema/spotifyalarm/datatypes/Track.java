@@ -1,10 +1,11 @@
 package win.knutzuidema.spotifyalarm.datatypes;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Track extends SpotifyObject{
     private Album album;
-    private Artist artist;
+    private Artist[] artists;
     private String[] availableMarkets;
     private int discNumber;
     private int duration;
@@ -15,12 +16,37 @@ public class Track extends SpotifyObject{
     private String previewURL;
     private int trackNumber;
 
+    public Track(JSONObject json){
+        super(json);
+        this.album = new Album(json.getJSONObject("album"));
+        JSONArray array = json.getJSONArray("artists");
+        Artist[] artists = new Artist[array.length()];
+        for(int i = 0; i < array.length(); i++){
+            artists[i] = new Artist((JSONObject) array.get(i));
+        }
+        this.artists = artists;
+        array = json.getJSONArray("available_markets");
+        String[] availableMarkets = new String[array.length()];
+        for(int i = 0; i < array.length(); i++){
+            availableMarkets[i] = (String) array.get(i);
+        }
+        this.availableMarkets = availableMarkets;
+        this.discNumber = json.getInt("disc_number");
+        this.duration = json.getInt("duration_ms");
+        this.isExplicit = json.getBoolean("explicit");
+        this.externalIDs = json.getJSONObject("external_ids");
+        this.isPlayable = json.getBoolean("is_playable");
+        this.linkedFrom = new TrackLink(json.getJSONObject("linked_from"));
+        this.previewURL = json.getString("preview_url");
+        this.trackNumber = json.getInt("track_number");
+    }
+
     public Album getAlbum() {
         return album;
     }
 
-    public Artist getArtist() {
-        return artist;
+    public Artist[] getArtists() {
+        return artists;
     }
 
     public String[] getAvailableMarkets() {

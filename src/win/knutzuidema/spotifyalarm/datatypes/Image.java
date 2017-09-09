@@ -1,9 +1,17 @@
 package win.knutzuidema.spotifyalarm.datatypes;
 
+import org.json.JSONObject;
+
 public class Image {
     private int height;
     private int width;
     private String url;
+
+    public Image(JSONObject json){
+        this.height = json.getInt("height");
+        this.width = json.getInt("width");
+        this.url = json.getString("url");
+    }
 
     public int getHeight() {
         return height;

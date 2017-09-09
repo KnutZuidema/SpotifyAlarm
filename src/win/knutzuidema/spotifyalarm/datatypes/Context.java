@@ -8,4 +8,27 @@ public class Context {
     private String uri;
     private String href;
     private JSONObject externalURLs;
+
+    public Context(JSONObject json){
+        this.type = ContextType.valueOf(json.getString("type").toUpperCase());
+        this.uri = json.getString("uri");
+        this.href = json.getString("href");
+        this.externalURLs = json.getJSONObject("external_urls");
+    }
+
+    public ContextType getType() {
+        return type;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public String getHref() {
+        return href;
+    }
+
+    public JSONObject getExternalURLs() {
+        return externalURLs;
+    }
 }

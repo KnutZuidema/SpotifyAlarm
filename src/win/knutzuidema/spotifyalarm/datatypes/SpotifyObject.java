@@ -10,6 +10,15 @@ public abstract class SpotifyObject {
     protected String href;
     protected JSONObject externalURLs;
 
+    protected SpotifyObject(JSONObject json){
+        this.id = json.getString("id");
+        this.uri = json.getString("uri");
+        this.popularity = json.getInt("popularity");
+        this.name = json.getString("name");
+        this.href = json.getString("href");
+        this.externalURLs = json.getJSONObject("external_urls");
+    }
+
     public String getId() {
         return id;
     }

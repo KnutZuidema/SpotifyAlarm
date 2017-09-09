@@ -8,6 +8,13 @@ public class TrackLink {
     private String id;
     private String uri;
 
+    public TrackLink(JSONObject json){
+        this.externalURLs = json.getJSONObject("external_urls");
+        this.href = json.getString("href");
+        this.id = json.getString("id");
+        this.uri = json.getString("uri");
+    }
+
     public JSONObject getExternalURLs() {
         return externalURLs;
     }

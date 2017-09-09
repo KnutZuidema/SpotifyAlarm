@@ -1,5 +1,7 @@
 package win.knutzuidema.spotifyalarm.datatypes;
 
+import org.json.JSONObject;
+
 public class Device {
     private String id;
     private String name;
@@ -7,6 +9,15 @@ public class Device {
     private int volume;
     private boolean isActive;
     private boolean isRestricted;
+
+    public Device(JSONObject json){
+        this.id = json.getString("id");
+        this.name = json.getString("name");
+        this.type = json.getString("type");
+        this.volume = json.getInt("volume_percent");
+        this.isActive = json.getBoolean("is_active");
+        this.isRestricted = json.getBoolean("is_restricted");
+    }
 
     public String getId() {
         return id;

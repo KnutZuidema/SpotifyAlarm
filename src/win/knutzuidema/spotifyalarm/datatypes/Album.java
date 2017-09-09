@@ -7,7 +7,7 @@ import win.knutzuidema.spotifyalarm.enums.DatePrecision;
 
 public class Album extends SpotifyObject{
     private AlbumType type;
-    private Artist[] artist;
+    private Artist[] artists;
     private String[] availableMarkets;
     private JSONArray copyrights;
     private JSONObject externalIDs;
@@ -16,14 +16,49 @@ public class Album extends SpotifyObject{
     private String label;
     private String releaseDate;
     private DatePrecision releaseDatePrecision;
-    private Paging tracks;
+    private PagingTrack tracks;
+
+    public Album(JSONObject json){
+        super(json);
+        this.type = AlbumType.valueOf(json.getString("album_type").toUpperCase());
+        JSONArray array = json.getJSONArray("artists");
+        Artist[] artists = new Artist[array.length()];
+        for(int i = 0; i < array.length(); i++){
+            artists[i] = new Artist((JSONObject) array.get(i));
+        }
+        this.artists = artists;
+        array = json.getJSONArray("available_markets");
+        String[] availableMarkets = new String[array.length()];
+        for(int i = 0; i < array.length(); i++){
+            availableMarkets[i] = (String) array.get(i);
+        }
+        this.availableMarkets = availableMarkets;
+        this.copyrights = json.getJSONArray("copyrights");
+        this.externalIDs = json.getJSONObject("external_ids");
+        array = json.getJSONArray("genres");
+        String[] genres = new String[array.length()];
+        for(int i = 0; i < array.length(); i++){
+            genres[i] = (String) array.get(i);
+        }
+        this.genres = genres;
+        array = json.getJSONArray("images");
+        Image[] images = new Image[array.length()];
+        for(int i = 0; i < array.length(); i++){
+            images[i] = new Image((JSONObject) array.get(i));
+        }
+        this.images = images;
+        this.label = json.getString("label");
+        this.releaseDate = json.getString("release_date");
+        this.releaseDatePrecision = DatePrecision.valueOf(json.getString("release_date_precision".toUpperCase()));
+        this.tracks = new PagingTrack(json.getJSONObject("tracks"));
+    }
 
     public AlbumType getType() {
         return type;
     }
 
-    public Artist[] getArtist() {
-        return artist;
+    public Artist[] getArtists() {
+        return artists;
     }
 
     public String[] getAvailableMarkets() {
@@ -58,7 +93,7 @@ public class Album extends SpotifyObject{
         return releaseDatePrecision;
     }
 
-    public Paging getTracks() {
+    public PagingTrack getTracks() {
         return tracks;
     }
 }
