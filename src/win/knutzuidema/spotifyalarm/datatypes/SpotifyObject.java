@@ -40,4 +40,9 @@ public abstract class SpotifyObject implements Serializable{
     public JSONObject getExternalURLs() {
         return externalURLs;
     }
+
+    @Override
+    public String toString(){
+        return this.name;
+    }
 }
