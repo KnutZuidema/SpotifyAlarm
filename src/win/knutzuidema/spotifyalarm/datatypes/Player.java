@@ -14,14 +14,14 @@ public class Player {
     private Track currentlyPlaying;
 
     public Player(JSONObject json){
-        this.activeDevice = new Device(json.getJSONObject("device"));
+        this.activeDevice = json.isNull("device") ? null : new Device(json.getJSONObject("device"));
         this.repeatState = RepeatState.valueOf(json.getString("repeat_state").toUpperCase());
         this.isShuffeling = json.getBoolean("shuffle_state");
-        this.context = new Context(json.getJSONObject("context"));
+        this.context = json.isNull("context") ? null : new Context(json.getJSONObject("context"));
         this.timestamp = json.getInt("timestamp");
-        this.progress = json.getInt("progress_ms");
+        this.progress = json.isNull("progress_ms") ? -1 : json.getInt("progress_ms");
         this.isPlaying = json.getBoolean("is_playing");
-        this.currentlyPlaying = new Track(json.getJSONObject("item"));
+        this.currentlyPlaying = json.isNull("item") ? null : new Track(json.getJSONObject("item"));
     }
 
     public Device getActiveDevice() {

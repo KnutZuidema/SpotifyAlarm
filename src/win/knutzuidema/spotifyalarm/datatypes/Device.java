@@ -16,10 +16,10 @@ public class Device implements Serializable, Serializer {
     private boolean isRestricted;
 
     public Device(JSONObject json){
-        this.id = json.getString("id");
+        this.id = json.isNull("id") ? null : json.getString("id");
         this.name = json.getString("name");
         this.type = json.getString("type");
-        this.volume = json.getInt("volume_percent");
+        this.volume = json.isNull("volume_percent") ? -1 : json.getInt("volume_percent");
         this.isActive = json.getBoolean("is_active");
         this.isRestricted = json.getBoolean("is_restricted");
     }

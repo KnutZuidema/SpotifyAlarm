@@ -39,25 +39,27 @@ public class Album extends SpotifyObject implements Serializable, Serializer{
             availableMarkets[i] = (String) array.get(i);
         }
         this.availableMarkets = availableMarkets;
-        this.copyrights = json.getJSONArray("copyrights");
-        this.externalIDs = json.getJSONObject("external_ids");
-        array = json.getJSONArray("genres");
-        String[] genres = new String[array.length()];
-        for(int i = 0; i < array.length(); i++){
-            genres[i] = (String) array.get(i);
+        this.copyrights = json.isNull("copyrights") ? null : json.getJSONArray("copyrights");
+        this.externalIDs = json.isNull("external_IDs") ? null : json.getJSONObject("external_ids");
+        if(!json.isNull("genres")) {
+            array = json.getJSONArray("genres");
+            String[] genres = new String[array.length()];
+            for (int i = 0; i < array.length(); i++) {
+                genres[i] = (String) array.get(i);
+            }
+            this.genres = genres;
         }
-        this.genres = genres;
         array = json.getJSONArray("images");
         Image[] images = new Image[array.length()];
         for(int i = 0; i < array.length(); i++){
             images[i] = new Image((JSONObject) array.get(i));
         }
         this.images = images;
-        this.label = json.getString("label");
-        this.releaseDate = json.getString("release_date");
-        this.releaseDatePrecision = DatePrecision.valueOf(json.getString("release_date_precision".toUpperCase()));
-        this.tracks = new PagingTrack(json.getJSONObject("tracks"));
-        this.popularity = json.getInt("popularity");
+        this.label = json.isNull("label") ? null : json.getString("label");
+        this.releaseDate = json.isNull("release_date") ? null : json.getString("release_date");
+        this.releaseDatePrecision = json.isNull("release_date_precision") ? null : DatePrecision.valueOf(json.getString("release_date_precision".toUpperCase()));
+        this.tracks = json.isNull("tracks") ? null : new PagingTrack(json.getJSONObject("tracks"));
+        this.popularity = json.isNull("popularity") ? -1 : json.getInt("popularity");
     }
 
     public AlbumType getType() {

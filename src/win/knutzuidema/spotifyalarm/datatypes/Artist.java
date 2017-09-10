@@ -16,20 +16,24 @@ public class Artist extends SpotifyObject implements Serializable, Serializer {
 
     public Artist(JSONObject json){
         super(json);
-        this.followers = json.getJSONObject("followers").getInt("total");
-        JSONArray array = json.getJSONArray("genres");
-        String[] genres = new String[array.length()];
-        for(int i = 0; i < array.length(); i++){
-            genres[i] = (String) array.get(i);
+        this.followers = json.isNull("followers") ? -1 : json.getJSONObject("followers").getInt("total");
+        if(!json.isNull("genres")) {
+            JSONArray array = json.getJSONArray("genres");
+            String[] genres = new String[array.length()];
+            for (int i = 0; i < array.length(); i++) {
+                genres[i] = (String) array.get(i);
+            }
+            this.genres = genres;
         }
-        this.genres = genres;
-        array = json.getJSONArray("images");
-        Image[] images = new Image[array.length()];
-        for(int i = 0; i < array.length(); i++){
-            images[i] = new Image((JSONObject) array.get(i));
+        if(!json.isNull("images")) {
+            JSONArray array = json.getJSONArray("images");
+            Image[] images = new Image[array.length()];
+            for (int i = 0; i < array.length(); i++) {
+                images[i] = new Image((JSONObject) array.get(i));
+            }
+            this.images = images;
         }
-        this.images = images;
-        this.popularity = json.getInt("popularity");
+        this.popularity = json.isNull("popularity") ? -1 : json.getInt("popularity");
     }
 
     public int getFollowers() {

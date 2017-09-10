@@ -24,14 +24,16 @@ public class Track extends SpotifyObject implements Serializable, Serializer {
 
     public Track(JSONObject json){
         super(json);
-        this.album = new Album(json.getJSONObject("album"));
-        JSONArray array = json.getJSONArray("artists");
-        Artist[] artists = new Artist[array.length()];
-        for(int i = 0; i < array.length(); i++){
-            artists[i] = new Artist((JSONObject) array.get(i));
+        if(!json.isNull("album")) {
+            this.album = new Album(json.getJSONObject("album"));
+            JSONArray array = json.getJSONArray("artists");
+            Artist[] artists = new Artist[array.length()];
+            for (int i = 0; i < array.length(); i++) {
+                artists[i] = new Artist((JSONObject) array.get(i));
+            }
+            this.artists = artists;
         }
-        this.artists = artists;
-        array = json.getJSONArray("available_markets");
+        JSONArray array = json.getJSONArray("available_markets");
         String[] availableMarkets = new String[array.length()];
         for(int i = 0; i < array.length(); i++){
             availableMarkets[i] = (String) array.get(i);
@@ -40,12 +42,12 @@ public class Track extends SpotifyObject implements Serializable, Serializer {
         this.discNumber = json.getInt("disc_number");
         this.duration = json.getInt("duration_ms");
         this.isExplicit = json.getBoolean("explicit");
-        this.externalIDs = json.getJSONObject("external_ids");
-        this.isPlayable = json.getBoolean("is_playable");
-        this.linkedFrom = new TrackLink(json.getJSONObject("linked_from"));
-        this.previewURL = json.getString("preview_url");
+        this.externalIDs = json.isNull("external_ids") ? null : json.getJSONObject("external_ids");
+        this.isPlayable = json.isNull("is_playable") || json.getBoolean("is_playable");
+        this.linkedFrom = json.isNull("linked_from") ? null : new TrackLink(json.getJSONObject("linked_from"));
+        this.previewURL = json.isNull("preview_url") ? null : json.getString("preview_url");
         this.trackNumber = json.getInt("track_number");
-        this.popularity = json.getInt("popularity");
+        this.popularity = json.isNull("popularity") ? -1 : json.getInt("popularity");
     }
 
     public Album getAlbum() {

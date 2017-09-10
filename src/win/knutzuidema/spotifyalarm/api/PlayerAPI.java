@@ -69,10 +69,10 @@ public class PlayerAPI {
     }
 
     public boolean isPlaying(){
-        return getActivePlayer().isPlaying();
+        return getPlayer().isPlaying();
     }
 
-    public Player getActivePlayer(){
+    public Player getPlayer(){
         HttpUriRequest request = API
                 .requestBuilder("GET", "/me/player")
                 .build();

@@ -16,13 +16,13 @@ public class Playlist extends SpotifyObject implements Serializable, Serializer 
     private User owner;
     private boolean isPublic;
     private String snapshotID;
-    private PagingTrack tracks;
+    private PagingPlaylistTrack tracks;
 
     public Playlist(JSONObject json){
         super(json);
         this.isCollaborative = json.getBoolean("collaborative");
-        this.description = json.getString("description");
-        this.followers = json.getJSONObject("followers").getInt("total");
+        this.description = json.isNull("description") ? null : json.getString("description");
+        this.followers = json.isNull("followers") ? -1 : json.getJSONObject("followers").getInt("total");
         JSONArray array = json.getJSONArray("images");
         Image[] images = new Image[array.length()];
         for(int i = 0; i < array.length(); i++){
@@ -30,9 +30,9 @@ public class Playlist extends SpotifyObject implements Serializable, Serializer 
         }
         this.images = images;
         this.owner = new User(json.getJSONObject("owner"));
-        this.isPublic = json.getBoolean("public");
+        this.isPublic = !json.isNull("public") && json.getBoolean("public");
         this.snapshotID = json.getString("snapshot_id");
-        this.tracks = new PagingTrack(json.getJSONObject("tracks"));
+        this.tracks = new PagingPlaylistTrack(json.getJSONObject("tracks"));
     }
 
     public boolean isCollaborative() {
@@ -63,7 +63,7 @@ public class Playlist extends SpotifyObject implements Serializable, Serializer 
         return snapshotID;
     }
 
-    public PagingTrack getTracks() {
+    public PagingPlaylistTrack getTracks() {
         return tracks;
     }
 }
