@@ -43,11 +43,6 @@ public class Playlist extends SpotifyObject implements Serializable, Serializer 
         return description;
     }
 
-    @Override
-    public JSONObject getExternalURLs() {
-        return externalURLs;
-    }
-
     public int getFollowers() {
         return followers;
     }
@@ -70,10 +65,5 @@ public class Playlist extends SpotifyObject implements Serializable, Serializer 
 
     public PagingTrack getTracks() {
         return tracks;
-    }
-
-    @Override
-    public String getUri() {
-        return uri;
     }
 }
