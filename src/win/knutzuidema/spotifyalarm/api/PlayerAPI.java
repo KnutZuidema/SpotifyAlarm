@@ -8,6 +8,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import win.knutzuidema.spotifyalarm.datatypes.Player;
 import win.knutzuidema.spotifyalarm.enums.Config;
 
 import java.io.InputStreamReader;
@@ -40,39 +41,35 @@ public class PlayerAPI {
     }
 
     public void play(){
-        API.getJSONfromResponse(
-                API.getResponse(
-                        API.getBasicRequest(
-                                new HttpPut(), "/me/player/play")));
+        API.getResponse(
+                API.getBasicRequest(
+                        new HttpPut(), "/me/player/play"));
     }
 
     public void pause(){
-        API.getJSONfromResponse(
-                API.getResponse(
-                        API.getBasicRequest(
-                                new HttpPut(), "/me/player/pause")));
+        API.getResponse(
+                API.getBasicRequest(
+                        new HttpPut(), "/me/player/pause"));
     }
 
     public void next(){
-        API.getJSONfromResponse(
-                API.getResponse(
-                        API.getBasicRequest(
-                                new HttpPost(), "/me/player/next")));
+        API.getResponse(
+                API.getBasicRequest(
+                        new HttpPost(), "/me/player/next"));
     }
 
     public void previous(){
-        API.getJSONfromResponse(
-                API.getResponse(
-                        API.getBasicRequest(
-                                new HttpPost(), "/me/player/previous")));
+        API.getResponse(
+                API.getBasicRequest(
+                        new HttpPost(), "/me/player/previous"));
     }
 
     public boolean isPlaying(){
-        return getActivePlayer().getBoolean("is_playing");
+        return getActivePlayer().isPlaying();
     }
 
-    public JSONObject getActivePlayer(){
-        return(API.getJSONfromResponse(
+    public Player getActivePlayer(){
+        return new Player(API.getJSONfromResponse(
                 API.getResponse(API.getBasicRequest(
                         new HttpGet(), "/me/player"))));
     }

@@ -8,22 +8,22 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PagingTrack extends Paging implements Serializable, Serializer {
-    private static final long serialVersionUID = 0x203;
+public class PagingCategory extends Paging implements Serializable, Serializer{
+    private static final long serialVersionUID = 0x205;
 
-    private List<Track> items;
+    private List<Category> items;
 
-    public PagingTrack(JSONObject json){
+    public PagingCategory(JSONObject json){
         super(json);
         JSONArray array = json.getJSONArray("items");
-        List<Track> items = new LinkedList<>();
+        List<Category> items = new LinkedList<>();
         for(int i = 0; i < array.length(); i++){
-            items.add(new Track(array.getJSONObject(i)));
+            items.add(new Category(array.getJSONObject(i)));
         }
         this.items = items;
     }
 
-    public List<Track> getItems() {
+    public List<Category> getItems() {
         return items;
     }
 }
