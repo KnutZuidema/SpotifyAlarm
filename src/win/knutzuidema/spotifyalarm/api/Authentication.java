@@ -10,7 +10,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
-import win.knutzuidema.spotifyalarm.enums.Config;
+import static win.knutzuidema.spotifyalarm.enums.Config.*;
 
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -19,18 +19,18 @@ import java.util.List;
 
 class Authentication {
 
-    private String getRefreshToken(){
+    private static String getRefreshToken(){
         CloseableHttpClient httpClient = HttpClients.createDefault();
 
         HttpPost post = new HttpPost("https://accounts.spotify.com/api/token");
 
-        post.addHeader("User-Agent", Config.USER_AGENT.toString());
+        post.addHeader("User-Agent", USER_AGENT.toString());
         post.addHeader(basicAuth());
 
         List<NameValuePair> nvps = new ArrayList<>();
         nvps.add(new BasicNameValuePair("grant_type", "authorization_code"));
-        nvps.add(new BasicNameValuePair("code", Config.ACCESS_CODE.toString()));
-        nvps.add((new BasicNameValuePair("redirect_uri", Config.REDIRECT_URI.toString())));
+        nvps.add(new BasicNameValuePair("code", ACCESS_CODE.toString()));
+        nvps.add((new BasicNameValuePair("redirect_uri", REDIRECT_URI.toString())));
 
         try {
             post.setEntity(new UrlEncodedFormEntity(nvps, "UTF-8"));
@@ -54,7 +54,7 @@ class Authentication {
         }
     }
 
-    private String getAccessToken(){
+    private static String getAccessToken(){
         CloseableHttpClient httpClient = HttpClients.createDefault();
 
         HttpPost post = new HttpPost("https://accounts.spotify.com/api/token");
@@ -63,7 +63,7 @@ class Authentication {
 
         List<NameValuePair> nvps = new ArrayList<>(2);
         nvps.add(new BasicNameValuePair("grant_type", "refresh_token"));
-        nvps.add(new BasicNameValuePair("refresh_token", Config.REFRESH_TOKEN.toString()));
+        nvps.add(new BasicNameValuePair("refresh_token", REFRESH_TOKEN.toString()));
 
         try {
             post.setEntity(new UrlEncodedFormEntity(nvps));
@@ -85,12 +85,12 @@ class Authentication {
         }
     }
 
-    Header bearerAuth(){
+    static Header bearerAuth(){
         return new BasicHeader("Authorization", "Bearer " + getAccessToken());
     }
 
-    Header basicAuth(){
+    static Header basicAuth(){
         return new BasicHeader("Authorization","Basic " +
-                Base64.getEncoder().encodeToString((Config.CLIENT_ID.toString() + ":" + Config.CLIENT_SECRET.toString()).getBytes()));
+                Base64.getEncoder().encodeToString((CLIENT_ID.toString() + ":" + CLIENT_SECRET.toString()).getBytes()));
     }
 }

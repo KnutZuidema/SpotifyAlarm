@@ -1,67 +1,71 @@
 package win.knutzuidema.spotifyalarm.api;
 
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.http.client.methods.*;
 import org.json.JSONArray;
-import org.json.JSONObject;
+import win.knutzuidema.spotifyalarm.datatypes.Device;
 import win.knutzuidema.spotifyalarm.datatypes.Player;
-import win.knutzuidema.spotifyalarm.enums.Config;
 
-import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.List;
 
 public class PlayerAPI {
 
-    private Authentication auth = new Authentication();
+    public List<Device> getAvailableDevices(){
+        HttpUriRequest request = API
+                .requestBuilder("GET", "/me/player/devices")
+                .build();
 
-    public JSONObject getAvailableDevices(){
+        JSONArray array = API.getJSON(request)
+                .getJSONArray("devices");
 
-        return API.getJSONfromResponse(
-                API.getResponse(
-                        API.getBasicRequest(
-                                new HttpGet(), "/me/player/devices")));
+        List<Device> devices = new LinkedList<>();
+        for(Object device : array){
+            devices.add((Device) device);
+        }
 
+        return devices;
     }
 
-    public String getIDForName(String name){
-        JSONArray devices = getAvailableDevices().getJSONArray("devices");
-        for(Object device : devices){
-            try{
-                JSONObject json = (JSONObject) device;
-                String deviceName = json.getString("name");
-                if(deviceName.equals(name)){
-                    return json.getString("id");
-                }
-            }catch(Exception ignored){}
+    public Device getDeviceForName(String name){
+        List<Device> devices = getAvailableDevices();
+        for(Device device : devices){
+            if(device.getName().equals(name)){
+                return device;
+            }
         }
         return null;
     }
 
     public void play(){
-        API.getResponse(
-                API.getBasicRequest(
-                        new HttpPut(), "/me/player/play"));
+        HttpUriRequest request = API
+                .requestBuilder("PUT", "/me/player/play")
+                .build();
+
+        API.getResponse(request);
     }
 
     public void pause(){
-        API.getResponse(
-                API.getBasicRequest(
-                        new HttpPut(), "/me/player/pause"));
+        HttpUriRequest request = API
+                .requestBuilder("PUT", "/me/player/pause")
+                .build();
+
+        API.getResponse(request);
     }
 
     public void next(){
-        API.getResponse(
-                API.getBasicRequest(
-                        new HttpPost(), "/me/player/next"));
+        HttpUriRequest request = API
+                .requestBuilder("POST", "/me/player/next")
+                .build();
+
+        API.getResponse(request);
     }
 
     public void previous(){
-        API.getResponse(
-                API.getBasicRequest(
-                        new HttpPost(), "/me/player/previous"));
+        HttpUriRequest request = API
+                .requestBuilder("POST", "/me/player/previous")
+                .build();
+
+        API.getResponse(request);
     }
 
     public boolean isPlaying(){
@@ -69,8 +73,10 @@ public class PlayerAPI {
     }
 
     public Player getActivePlayer(){
-        return new Player(API.getJSONfromResponse(
-                API.getResponse(API.getBasicRequest(
-                        new HttpGet(), "/me/player"))));
+        HttpUriRequest request = API
+                .requestBuilder("GET", "/me/player")
+                .build();
+
+        return new Player(API.getJSON(request));
     }
 }

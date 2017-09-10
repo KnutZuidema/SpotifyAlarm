@@ -1,12 +1,15 @@
 package win.knutzuidema.spotifyalarm.api;
 
+import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import win.knutzuidema.spotifyalarm.enums.Config;
+import static win.knutzuidema.spotifyalarm.enums.Config.*;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,24 +17,12 @@ import java.net.URI;
 
 public class API {
 
-    public static HttpResponse getResponse(HttpRequestBase request){
+    public static HttpResponse getResponse(HttpUriRequest request){
         CloseableHttpClient httpClient = HttpClients.createDefault();
 
         try{
             return httpClient.execute(request);
         }catch(IOException e){
-            return null;
-        }
-    }
-
-    public static <T extends HttpRequestBase> T getBasicRequest(T type, String endpoint){
-        try {
-            type.setURI(new URI(Config.API_URI.toString() + endpoint));
-
-            type.addHeader(new Authentication().bearerAuth());
-
-            return type;
-        }catch(Exception e){
             return null;
         }
     }
@@ -60,5 +51,13 @@ public class API {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static JSONObject getJSON(HttpUriRequest request){
+        return getJSONfromResponse(getResponse(request));
+    }
+
+    public static RequestBuilder requestBuilder(String method, String uri){
+        return RequestBuilder.create(method).setUri(API_URI + uri).addHeader(Authentication.bearerAuth());
     }
 }
