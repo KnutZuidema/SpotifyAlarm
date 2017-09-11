@@ -2,7 +2,6 @@ package win.knutzuidema.spotifyalarm.ui;
 
 
 import javafx.application.Application;
-import javafx.beans.property.DoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -163,9 +162,5 @@ public class UI extends Application {
                 back.setVisible(false);
             }
         }
-    }
-
-    private void progressBarUpdater(){
-
     }
 }
