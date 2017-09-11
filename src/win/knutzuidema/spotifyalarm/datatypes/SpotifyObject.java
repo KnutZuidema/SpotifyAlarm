@@ -14,7 +14,6 @@ public abstract class SpotifyObject implements Serializable{
     protected transient JSONObject externalURLs;
 
     protected SpotifyObject(JSONObject json){
-        System.out.println(json);
         this.id = json.isNull("id") ? null : json.getString("id");
         this.uri = json.getString("uri");
         this.name = json.isNull("name") ? null : json.getString("name");

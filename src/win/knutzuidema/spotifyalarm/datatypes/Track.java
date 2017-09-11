@@ -95,6 +95,7 @@ public class Track extends SpotifyObject implements Serializable, Serializer {
     }
 
     public int getPopularity() {
+        System.out.println("hello");
         return popularity;
     }
 }

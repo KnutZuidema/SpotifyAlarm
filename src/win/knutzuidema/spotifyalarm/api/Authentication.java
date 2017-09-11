@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
-class Authentication {
+public class Authentication {
 
     private static String getRefreshToken(){
         CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -54,7 +54,7 @@ class Authentication {
         }
     }
 
-    private static String getAccessToken(){
+    public static String getAccessToken(){
         CloseableHttpClient httpClient = HttpClients.createDefault();
 
         HttpPost post = new HttpPost("https://accounts.spotify.com/api/token");

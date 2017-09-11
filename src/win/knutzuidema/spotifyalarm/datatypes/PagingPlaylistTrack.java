@@ -12,7 +12,6 @@ public class PagingPlaylistTrack extends Paging{
     public PagingPlaylistTrack(JSONObject json){
         super(json);
         if(!json.isNull("items")) {
-            System.out.println(json);
             JSONArray array = json.getJSONArray("items");
             List<PlaylistTrack> items = new LinkedList<>();
             for (int i = 0; i < array.length(); i++) {

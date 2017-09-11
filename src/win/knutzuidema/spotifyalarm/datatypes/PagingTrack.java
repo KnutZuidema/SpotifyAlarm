@@ -16,7 +16,6 @@ public class PagingTrack extends Paging implements Serializable, Serializer {
     public PagingTrack(JSONObject json){
         super(json);
         if(!json.isNull("items")) {
-            System.out.println(json);
             JSONArray array = json.getJSONArray("items");
             List<Track> items = new LinkedList<>();
             for (int i = 0; i < array.length(); i++) {
