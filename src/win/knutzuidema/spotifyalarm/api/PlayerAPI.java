@@ -108,4 +108,12 @@ public class PlayerAPI {
 
         return new Player(API.getJSON(request));
     }
+
+    public CurrentlyPlaying getCurrentlyPlaying(){
+        HttpUriRequest request = API
+                .requestBuilder("GET", "/me/player/currently-playing")
+                .build();
+
+        return new CurrentlyPlaying(API.getJSON(request));
+    }
 }
