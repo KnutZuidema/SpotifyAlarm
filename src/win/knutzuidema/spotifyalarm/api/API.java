@@ -5,6 +5,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import static win.knutzuidema.spotifyalarm.enums.Config.*;
@@ -12,6 +13,8 @@ import static win.knutzuidema.spotifyalarm.enums.Config.*;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class API {
 
@@ -57,5 +60,17 @@ public class API {
 
     public static RequestBuilder requestBuilder(String method, String uri){
         return RequestBuilder.create(method).setUri(API_URI + uri).addHeader(Authentication.bearerAuth());
+    }
+
+    public static String toQueryString(Collection<?> collection){
+        StringBuilder stringBuilder = new StringBuilder();
+        Iterator<?> iter = collection.iterator();
+        for(int i = 0; i < collection.size(); i++){
+            stringBuilder.append(iter.next());
+            if(iter.hasNext()){
+                stringBuilder.append(',');
+            }
+        }
+        return stringBuilder.toString();
     }
 }

@@ -5,7 +5,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import win.knutzuidema.spotifyalarm.datatypes.Artist;
-import win.knutzuidema.spotifyalarm.datatypes.PagingAlbum;
+import win.knutzuidema.spotifyalarm.datatypes.paging.PagingAlbum;
 import win.knutzuidema.spotifyalarm.datatypes.Track;
 import win.knutzuidema.spotifyalarm.enums.AlbumType;
 

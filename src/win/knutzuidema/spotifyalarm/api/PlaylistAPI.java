@@ -1,7 +1,8 @@
 package win.knutzuidema.spotifyalarm.api;
 
 import org.apache.http.client.methods.HttpUriRequest;
-import win.knutzuidema.spotifyalarm.datatypes.PagingPlaylistTrack;
+import win.knutzuidema.spotifyalarm.datatypes.paging.PagingPlaylist;
+import win.knutzuidema.spotifyalarm.datatypes.paging.PagingPlaylistTrack;
 import win.knutzuidema.spotifyalarm.datatypes.Playlist;
 
 public class PlaylistAPI {
@@ -26,6 +27,10 @@ public class PlaylistAPI {
         HttpUriRequest request = API
                 .requestBuilder("POST", "/users/" + userID + "/playlists")
                 .addHeader("Content-Type", "application/json")
+                .setEntity(JSONFormEntity
+                        .create()
+                        .addParameter("name", name)
+                        .build())
                 .build();
 
         return new Playlist(API.getJSON(request));
@@ -35,9 +40,23 @@ public class PlaylistAPI {
         HttpUriRequest request = API
                 .requestBuilder("POST", "/users/" + userID + "/playlists")
                 .addHeader("Content-Type", "application/json")
-                .addParameter("name", name)
+                .setEntity(JSONFormEntity
+                        .create()
+                        .addParameter("name", name)
+                        .addParameter("public", isPublic)
+                        .addParameter("collaborative", isCollaborative)
+                        .addParameter("description", description)
+                        .build())
                 .build();
 
         return new Playlist(API.getJSON(request));
+    }
+
+    public PagingPlaylist getUserPlaylists(String userID){
+        HttpUriRequest request = API
+                .requestBuilder("GET", "/usesrs/" + userID + "/playlists")
+                .build();
+
+        return new PagingPlaylist(API.getJSON(request));
     }
 }

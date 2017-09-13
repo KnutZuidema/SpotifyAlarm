@@ -2,6 +2,9 @@ package win.knutzuidema.spotifyalarm.api;
 
 import org.apache.http.client.methods.HttpUriRequest;
 import win.knutzuidema.spotifyalarm.datatypes.*;
+import win.knutzuidema.spotifyalarm.datatypes.paging.PagingAlbum;
+import win.knutzuidema.spotifyalarm.datatypes.paging.PagingCategory;
+import win.knutzuidema.spotifyalarm.datatypes.paging.PagingPlaylist;
 
 public class BrowseAPI {
 

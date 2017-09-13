@@ -6,6 +6,8 @@ import win.knutzuidema.spotifyalarm.interfaces.Serializer;
 import java.io.Serializable;
 
 public class CurrentlyPlaying implements Serializable, Serializer{
+    private static final long serialVersionUID = 0x900;
+
     private Context context;
     private int timestamp;
     private int progress;

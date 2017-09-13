@@ -2,6 +2,7 @@ package win.knutzuidema.spotifyalarm.datatypes;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import win.knutzuidema.spotifyalarm.datatypes.paging.PagingTrack;
 import win.knutzuidema.spotifyalarm.enums.AlbumType;
 import win.knutzuidema.spotifyalarm.enums.DatePrecision;
 import win.knutzuidema.spotifyalarm.interfaces.Serializer;

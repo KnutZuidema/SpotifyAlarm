@@ -4,7 +4,7 @@ import org.apache.http.client.methods.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import win.knutzuidema.spotifyalarm.datatypes.Album;
-import win.knutzuidema.spotifyalarm.datatypes.PagingTrack;
+import win.knutzuidema.spotifyalarm.datatypes.paging.PagingTrack;
 
 import java.util.LinkedList;
 import java.util.List;

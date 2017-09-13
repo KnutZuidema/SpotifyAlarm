@@ -2,6 +2,7 @@ package win.knutzuidema.spotifyalarm.datatypes;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import win.knutzuidema.spotifyalarm.datatypes.paging.PagingPlaylistTrack;
 import win.knutzuidema.spotifyalarm.interfaces.Serializer;
 
 import java.io.Serializable;

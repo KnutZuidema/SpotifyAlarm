@@ -1,4 +1,4 @@
-package win.knutzuidema.spotifyalarm.datatypes;
+package win.knutzuidema.spotifyalarm.datatypes.paging;
 
 import org.json.JSONObject;
 

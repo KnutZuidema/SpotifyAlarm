@@ -1,7 +1,9 @@
-package win.knutzuidema.spotifyalarm.datatypes;
+package win.knutzuidema.spotifyalarm.datatypes.paging;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import win.knutzuidema.spotifyalarm.datatypes.PlaylistTrack;
+import win.knutzuidema.spotifyalarm.datatypes.Track;
 
 import java.util.LinkedList;
 import java.util.List;
