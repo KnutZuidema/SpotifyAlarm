@@ -72,14 +72,13 @@ public class UI extends Application {
         progress = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                while(true){
+                while(true) {
                     try {
                         Thread.sleep(100);
-                    }catch (Exception ignored){}
-                    if(player.isPlaying()){
+                    } catch (Exception ignored) {
+                    }
+                    if (player.isPlaying()) {
                         updateProgress(player.getPlayer().getProgress(), player.getPlayer().getCurrentlyPlaying().getDuration());
-                    }else{
-                        updateProgress(0, 0);
                     }
                 }
             }

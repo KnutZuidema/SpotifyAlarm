@@ -12,6 +12,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import win.knutzuidema.spotifyalarm.datatypes.*;
 import win.knutzuidema.spotifyalarm.enums.ContextType;
 
@@ -57,20 +58,21 @@ public class PlayerAPI {
     }
 
     public void play(SpotifyObject object){
-        HttpPut request = new HttpPut("https://api.spotify.com/v1/me/player/play");
-        request.addHeader(Authentication.bearerAuth());
-        request.addHeader("Content-Type", "application/x-www-form-urlencoded");
-        if(object instanceof Track) {
-            StringEntity entity = new StringEntity("{\"uris\": [\"" + object.getUri() + "\"]}", ContentType.APPLICATION_FORM_URLENCODED);
-            request.setEntity(entity);
-        }else if(object instanceof Album || object instanceof Playlist || object instanceof Artist){
-            StringEntity entity = new StringEntity("{\"context_uri\": \"" + object.getUri() + "\"}", ContentType.APPLICATION_FORM_URLENCODED);
-            request.setEntity(entity);
-        }else{
+        if(object instanceof User){
             return;
         }
 
-        API.getResponse(request);
+        HttpUriRequest request1 = API
+                .requestBuilder("PUT", "/me/player/play")
+                .addHeader("Content-Type", "application/json")
+                .setEntity(JSONFormEntity
+                        .create()
+                        .addParameter(object instanceof Track ? "uris" : "context_uri",
+                                object instanceof Track ? new JSONArray().put(object.getUri()) : object.getUri())
+                        .build())
+                .build();
+
+        API.getResponse(request1);
     }
 
     public void pause(){
