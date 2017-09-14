@@ -45,9 +45,4 @@ public class AlbumAPI {
 
         return albums;
     }
-
-    public PagingTrack getTracks(String id) {
-        return getAlbum(id).getTracks();
-    }
-
 }
