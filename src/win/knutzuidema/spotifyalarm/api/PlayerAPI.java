@@ -14,7 +14,9 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import win.knutzuidema.spotifyalarm.datatypes.*;
+import win.knutzuidema.spotifyalarm.datatypes.paging.CursorPagingPlayHistory;
 import win.knutzuidema.spotifyalarm.enums.ContextType;
+import win.knutzuidema.spotifyalarm.enums.RepeatState;
 
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -22,6 +24,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class PlayerAPI {
+
+    public CursorPagingPlayHistory getRecentlyPlayed(){
+        HttpUriRequest request = API
+                .requestBuilder("GET", "/player/recently-played")
+                .build();
+
+        return new CursorPagingPlayHistory(API.getJSON(request));
+    }
 
     public List<Device> getAvailableDevices(){
         HttpUriRequest request = API
@@ -39,14 +49,20 @@ public class PlayerAPI {
         return devices;
     }
 
-    public Device getDeviceForName(String name){
-        List<Device> devices = getAvailableDevices();
-        for(Device device : devices){
-            if(device.getName().equals(name)){
-                return device;
-            }
-        }
-        return null;
+    public Player getPlayer(){
+        HttpUriRequest request = API
+                .requestBuilder("GET", "/me/player")
+                .build();
+
+        return new Player(API.getJSON(request));
+    }
+
+    public CurrentlyPlaying getCurrentlyPlaying(){
+        HttpUriRequest request = API
+                .requestBuilder("GET", "/me/player/currently-playing")
+                .build();
+
+        return new CurrentlyPlaying(API.getJSON(request));
     }
 
     public void play(){
@@ -99,23 +115,35 @@ public class PlayerAPI {
         API.getResponse(request);
     }
 
-    public boolean isPlaying(){
-        return getPlayer().isPlaying();
-    }
-
-    public Player getPlayer(){
+    public void seek(int ms){
         HttpUriRequest request = API
-                .requestBuilder("GET", "/me/player")
+                .requestBuilder("PUT", "/me/player/seek?position_ms=" + ms)
                 .build();
 
-        return new Player(API.getJSON(request));
+        API.getResponse(request);
     }
 
-    public CurrentlyPlaying getCurrentlyPlaying(){
+    public void setRepeat(RepeatState state){
         HttpUriRequest request = API
-                .requestBuilder("GET", "/me/player/currently-playing")
+                .requestBuilder("PUT", "/me/player/repeat?state=" + state.toString())
                 .build();
 
-        return new CurrentlyPlaying(API.getJSON(request));
+        API.getResponse(request);
+    }
+
+    public void setVolume(int percent){
+        HttpUriRequest request = API
+                .requestBuilder("PUT", "/me/player/volume?volume_percent=" + percent)
+                .build();
+
+        API.getResponse(request);
+    }
+
+    public void setShuffle(boolean state){
+        HttpUriRequest request = API
+                .requestBuilder("PUT", "/me/player/shuffle?state=" + state)
+                .build();
+
+        API.getResponse(request);
     }
 }

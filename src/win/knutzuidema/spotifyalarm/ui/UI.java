@@ -57,7 +57,7 @@ public class UI extends Application {
         browse = new BrowseAPI();
         playlist = new PlaylistAPI();
         device = player.getPlayer().getActiveDevice();
-        playpause = new Button(player.isPlaying() ? "PAUSE" : "PLAY");
+        playpause = new Button(player.getPlayer().isPlaying() ? "PAUSE" : "PLAY");
         next = new Button(">>");
         previous = new Button("<<");
         back = new Button("Back");
@@ -75,10 +75,9 @@ public class UI extends Application {
                 while(true) {
                     try {
                         Thread.sleep(100);
-                    } catch (Exception ignored) {
-                    }
-                    if (player.isPlaying()) {
-                        updateProgress(player.getPlayer().getProgress(), player.getPlayer().getCurrentlyPlaying().getDuration());
+                    } catch (Exception ignored) {}
+                    if (player.getPlayer().isPlaying()) {
+                        updateProgress(player.getCurrentlyPlaying().getProgress(), player.getPlayer().getCurrentlyPlaying().getDuration());
                     }
                 }
             }
@@ -144,7 +143,7 @@ public class UI extends Application {
     }
 
     private void playpauseAction(ActionEvent event){
-        if(player.isPlaying()){
+        if(player.getPlayer().isPlaying()){
             player.pause();
             playpause.setText("PLAY");
         }

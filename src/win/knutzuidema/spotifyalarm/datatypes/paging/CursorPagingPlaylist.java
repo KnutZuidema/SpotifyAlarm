@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class CursorPagingPlaylist extends CursorPaging implements Serializable, Serializer {
-    private static final long serialVerionUID = 0xA01;
+    private static final long serialVerionUID = 0xA03;
 
     private List<Playlist> items;
 
@@ -22,5 +22,9 @@ public class CursorPagingPlaylist extends CursorPaging implements Serializable, 
             items.add(new Playlist(array.getJSONObject(i)));
         }
         this.items = items;
+    }
+
+    public List<Playlist> getItems() {
+        return items;
     }
 }

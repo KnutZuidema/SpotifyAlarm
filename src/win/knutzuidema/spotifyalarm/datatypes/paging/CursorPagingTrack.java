@@ -23,4 +23,8 @@ public class CursorPagingTrack extends CursorPaging implements Serializable, Ser
         }
         this.items = items;
     }
+
+    public List<Track> getItems() {
+        return items;
+    }
 }
