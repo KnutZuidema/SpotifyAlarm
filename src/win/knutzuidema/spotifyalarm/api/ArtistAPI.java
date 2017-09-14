@@ -84,7 +84,6 @@ public class ArtistAPI {
                 .build();
 
         return new PagingAlbum(API.getJSON(request));
-
     }
 
     public List<Track> getTopTracks(String id){
