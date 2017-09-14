@@ -1,25 +1,11 @@
 package win.knutzuidema.spotifyalarm.api;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpEntityEnclosingRequest;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
-import org.json.JSONObject;
 import win.knutzuidema.spotifyalarm.datatypes.*;
 import win.knutzuidema.spotifyalarm.datatypes.paging.CursorPagingPlayHistory;
-import win.knutzuidema.spotifyalarm.enums.ContextType;
 import win.knutzuidema.spotifyalarm.enums.RepeatState;
 
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
