@@ -1,20 +1,48 @@
 package win.knutzuidema.spotifyalarm.datatypes;
 
 public class RecommendationAttributes {
-    private float acousticness;
-    private float danceability;
-    private int duration_ms;
-    private float energy;
-    private float instrumentalness;
-    private int key;
-    private float liveness;
-    private float loudness;
-    private int mode;
-    private int popularity;
-    private float speechiness;
-    private float tempo;
-    private int time_signature;
-    private float valence;
+    private Float acousticness;
+    private Float danceability;
+    private Integer duration_ms;
+    private Float energy;
+    private Float instrumentalness;
+    private Integer key;
+    private Float liveness;
+    private Float loudness;
+    private Integer mode;
+    private Integer popularity;
+    private Float speechiness;
+    private Float tempo;
+    private Integer time_signature;
+    private Float valence;
+    private boolean usedFirst = false;
+
+    public String toURIQuery(String prefix, boolean isFirst){
+        return (this.acousticness == null ? "" : pre(isFirst) + prefix + "_acousticness=" + this.acousticness) +
+                (this.danceability == null ? "" : pre(isFirst) + prefix + "_danceability=" + this.danceability) +
+                (this.duration_ms == null ? "" : pre(isFirst) + prefix + "_duration_ms=" + this.duration_ms) +
+                (this.energy == null ? "" : pre(isFirst) + prefix + "_energy=" + this.energy) +
+                (this.instrumentalness == null ? "" : pre(isFirst) + prefix + "_instrumentalness=" + this.instrumentalness) +
+                (this.key == null ? "" : pre(isFirst) + prefix + "_key=" + this.key) +
+                (this.liveness == null ? "" : pre(isFirst) + prefix + "_liveness=" + this.liveness) +
+                (this.loudness == null ? "" : pre(isFirst) + prefix + "_loudness=" + this.loudness) +
+                (this.mode == null ? "" : pre(isFirst) + prefix + "_mode=" + this.mode) +
+                (this.popularity == null ? "" : pre(isFirst) + prefix + "_popularity=" + this.popularity) +
+                (this.speechiness == null ? "" : pre(isFirst) + prefix + "_speechiness=" + this.speechiness) +
+                (this.tempo == null ? "" : pre(isFirst) + prefix + "_tempo=" + this.tempo) +
+                (this.time_signature == null ? "" : pre(isFirst) + prefix + "_time_signature=" + this.time_signature) +
+                (this.valence == null ? "" : pre(isFirst) + prefix + "_valence=" + this.valence);
+    }
+
+    private String pre(boolean arg){
+        if(arg){
+            if(!this.usedFirst){
+                this.usedFirst = true;
+                return "?";
+            }
+        }
+        return "&";
+    }
 
     public float getAcousticness() {
         return acousticness;
