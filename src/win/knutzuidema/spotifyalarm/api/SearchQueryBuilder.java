@@ -90,8 +90,14 @@ public class SearchQueryBuilder {
     }
 
     public String build(){
+        String keywords = this.keywords.toString();
+        String alternatives = this.alternatives.toString();
+        String exclusions = this.exclusions.toString();
+        this.keywords = new StringBuilder();
+        this.alternatives = new StringBuilder();
+        this.exclusions = new StringBuilder();
 
-        return keywords.toString() +
+        return keywords +
                 " OR " +
                 alternatives +
                 exclusions +
