@@ -34,8 +34,9 @@ public class API {
             }
             return new JSONObject(string.toString());
         }catch(Exception e){
+            System.out.println(response.getStatusLine());
             e.printStackTrace();
-            return null;
+            return getJSONfromResponse(response);
         }
     }
 
