@@ -18,6 +18,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -83,6 +84,15 @@ public class UI extends Application {
         browse = new BrowseAPI();
         playlist = new PlaylistAPI();
         device = player.getPlayer().getActiveDevice();
+        if(!device.isActive()){
+            Dialog<Void> dialog = new Dialog<>();
+            dialog.setTitle("SpotifyAlarm - Error");
+            dialog.setContentText("There is no active device.\nPlease log into Spotify on one of your devices.");
+            dialog.getDialogPane().getButtonTypes().add(new ButtonType("OK"));
+            dialog.setOnCloseRequest(event -> System.exit(0));
+            dialog.show();
+            return;
+        }
         playpause = new Button();
         next = new Button(">>");
         previous = new Button("<<");
@@ -101,7 +111,7 @@ public class UI extends Application {
             @Override
             protected Void call() throws Exception {
                 while(true) {
-                    Thread.sleep(100);
+                    Thread.sleep(500);
                     if (player.getPlayer().isPlaying()) {
                         updateProgress(player.getCurrentlyPlaying().getProgress(), duration);
                     }
@@ -143,9 +153,7 @@ public class UI extends Application {
         songThread.setDaemon(true);
         songThread.start();
 
-        GridPane.setHalignment(deviceName, HPos.CENTER);
         GridPane.setHgrow(progressBar, Priority.ALWAYS);
-        gridButtons.setAlignment(Pos.CENTER);
         grid.add(deviceName, 0, 0);
         grid.add(songName, 0, 1);
         grid.add(gridButtons, 0, 2);
@@ -160,6 +168,10 @@ public class UI extends Application {
         primaryStage.setScene(new Scene(grid));
         primaryStage.setResizable(false);
         primaryStage.show();
+        previous.setTranslateX(gridButtons.getWidth()/2 - (previous.getWidth() + playpause.getWidth()/2));
+        playpause.setTranslateX(gridButtons.getWidth()/2 - (previous.getWidth() + playpause.getWidth()/2));
+        next.setTranslateX(gridButtons.getWidth()/2 - (previous.getWidth() + playpause.getWidth()/2));
+        deviceName.setTranslateX(grid.getWidth()/2 - deviceName.getLayoutBounds().getWidth()/2);
     }
 
     private void contextAction(MouseEvent event){

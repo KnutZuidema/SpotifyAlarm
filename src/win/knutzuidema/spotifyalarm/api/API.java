@@ -36,7 +36,7 @@ public class API {
         }catch(Exception e){
             System.out.println(response.getStatusLine());
             e.printStackTrace();
-            return getJSONfromResponse(response);
+            return null;
         }
     }
 

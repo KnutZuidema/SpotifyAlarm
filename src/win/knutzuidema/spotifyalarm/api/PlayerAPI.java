@@ -1,5 +1,6 @@
 package win.knutzuidema.spotifyalarm.api;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.*;
 import org.json.JSONArray;
 import win.knutzuidema.spotifyalarm.datatypes.*;
@@ -48,7 +49,11 @@ public class PlayerAPI {
                 .requestBuilder("GET", "/me/player/currently-playing")
                 .build();
 
-        return new CurrentlyPlaying(API.getJSON(request));
+        HttpResponse response = API.getResponse(request);
+        if(response.getStatusLine().getStatusCode() == 204){
+            return null;
+        }
+        return new CurrentlyPlaying(API.getJSONfromResponse(response));
     }
 
     public void play(){
