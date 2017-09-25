@@ -1,34 +1,23 @@
 package win.knutzuidema.spotifyalarm.ui;
 
 
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import win.knutzuidema.spotifyalarm.api.BrowseAPI;
 import win.knutzuidema.spotifyalarm.api.PlayerAPI;
 import win.knutzuidema.spotifyalarm.api.PlaylistAPI;
@@ -37,7 +26,8 @@ import win.knutzuidema.spotifyalarm.datatypes.Playlist;
 import win.knutzuidema.spotifyalarm.datatypes.SpotifyObject;
 import win.knutzuidema.spotifyalarm.datatypes.Track;
 
-import java.awt.*;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Stack;
 
 public class UI extends Application {
@@ -53,8 +43,9 @@ public class UI extends Application {
     private Button next;
     private Button previous;
     private Button back;
+    private Button mute;
     private Text deviceName;
-    private Text songName;
+    private Label songName;
     private GridPane grid;
     private GridPane gridButtons;
     private Pane listing;
@@ -63,19 +54,18 @@ public class UI extends Application {
     private Stack<Node> stack;
     private ProgressBar progressBar;
     private Task<Void> progress;
-    private Task<String> songUpdate;
+    private Task<Double> songUpdate;
+    private Task<Void> songScroll;
     private Stage stage;
-    private double sceneWidth;
+    private double stageWidth;
     private double textWidth;
-    private Timeline timeline = new Timeline();
-    private Duration startDuration;
-    private Duration endDuration;
-    private KeyValue startKeyValue;
-    private KeyFrame startKeyFrame;
-    private KeyValue endKeyValue;
-    private KeyFrame endKeyFrame;
-    private String name;
     private double duration;
+    private Slider slider;
+    private Thread progressThread;
+    private Thread songThread;
+    private Thread scrollThread;
+    private Track currentlyPlaying;
+    private int lastVolume;
 
     @Override
     public void start(Stage primaryStage){
@@ -97,8 +87,9 @@ public class UI extends Application {
         next = new Button(">>");
         previous = new Button("<<");
         back = new Button("Back");
+        mute = new Button("x");
         deviceName = new Text(device.getName());
-        songName = new Text();
+        songName = new Label();
         grid = new GridPane();
         gridButtons = new GridPane();
         listing = new Pane();
@@ -106,72 +97,141 @@ public class UI extends Application {
         tracks = new ListView<>();
         stack = new Stack<>();
         progressBar = new ProgressBar();
+        slider = new Slider();
+        currentlyPlaying = player.getPlayer().getCurrentlyPlaying();
 
         progress = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 while(true) {
-                    Thread.sleep(500);
                     if (player.getPlayer().isPlaying()) {
                         updateProgress(player.getCurrentlyPlaying().getProgress(), duration);
                     }
+                    Thread.sleep(300);
                 }
             }
         };
-        songUpdate = new Task<String>() {
+        songUpdate = new Task<Double>() {
             @Override
-            protected String call() throws Exception {
+            protected Double call() throws Exception {
+                duration = player.getPlayer().getCurrentlyPlaying().getDuration();
                 while(true) {
-                    Thread.sleep(20);
-                    name = player.getPlayer().getCurrentlyPlaying().getName();
-                    if (!name.equals(songName.getText())) {
-                        updateValue(name);
-                        updateScroll();
+                    Track tmp = player.getPlayer().getCurrentlyPlaying();
+                    if (!tmp.getId().equals(currentlyPlaying.getId())) {
                         duration = player.getPlayer().getCurrentlyPlaying().getDuration();
+                        currentlyPlaying = tmp;
                     }
                     updateMessage(player.getPlayer().isPlaying() ? "| |" : ">");
+                    Thread.sleep(500);
                 }
             }
         };
+
+        songScroll = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                while (true) {
+                    stageWidth = stage.getWidth();
+                    textWidth = new Text(currentlyPlaying.getName()).getLayoutBounds().getWidth();
+                    char[] chars = currentlyPlaying.getName().toCharArray();
+                    List<Character> list = new LinkedList<>();
+                    for (char c : chars) {
+                        list.add(c);
+                    }
+                    list.add(' ');
+                    list.add(' ');
+                    list.add(' ');
+                    list.add(' ');
+                    list.add(' ');
+                    list.add(' ');
+                    updateMessage(new String(chars));
+                    GridPane.setHalignment(songName, HPos.CENTER);
+                    while (stageWidth < textWidth) {
+                        GridPane.setHalignment(songName, HPos.LEFT);
+                        stageWidth = stage.getWidth();
+                        textWidth = new Text(currentlyPlaying.getName()).getLayoutBounds().getWidth();
+                        list.add(list.get(0));
+                        list.remove(0);
+                        StringBuilder string = new StringBuilder();
+                        for (Character c : list) {
+                            string.append(c);
+                        }
+                        updateMessage(string.toString());
+                        Thread.sleep(180);
+                    }
+                    Thread.sleep(100);
+                }
+            }
+        };
+
         primaryStage.setTitle("SpotifyAlarm");
         context.setItems(FXCollections.observableArrayList(browse.getFeaturedPlaylists().getItems()));
         context.setOnMouseClicked(this::contextAction);
         tracks.setOnMouseClicked(this::trackAction);
         playpause.setOnAction(this::playpauseAction);
         playpause.textProperty().bind(songUpdate.messageProperty());
-        songName.textProperty().bind(songUpdate.valueProperty().asString());
+        mute.setOnAction(event -> {
+            System.out.println(slider.getValue());
+            if(slider.getValue() == 0.0) {
+                slider.setValue(lastVolume);
+            }else{
+                slider.setValue(0);
+            }
+        });
+        songName.textProperty().bind(songScroll.messageProperty());
         next.setOnAction(event -> player.next());
         previous.setOnAction(event -> player.previous());
         back.setOnAction(this::backAction);
         back.setVisible(false);
         progressBar.progressProperty().bind(progress.progressProperty());
         progressBar.setMaxWidth(Double.MAX_VALUE);
-        Thread progressThread = new Thread(progress);
+        progressThread = new Thread(progress);
         progressThread.setDaemon(true);
         progressThread.start();
-        Thread songThread = new Thread(songUpdate);
+        songThread = new Thread(songUpdate);
         songThread.setDaemon(true);
         songThread.start();
+        scrollThread = new Thread(songScroll);
+        scrollThread.setDaemon(true);
+        scrollThread.start();
+        slider.setOrientation(Orientation.VERTICAL);
+        slider.setMax(100);
+        slider.setMin(0);
+        slider.setMajorTickUnit(100);
+        slider.setMinorTickCount(99);
+        slider.setSnapToTicks(true);
+        slider.setPrefHeight(1);
+        slider.setValue(device.getVolume());
+        lastVolume = device.getVolume();
+        slider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (!slider.isValueChanging()) {
+                player.setVolume(newValue.intValue());
+                if(newValue.intValue() > 0) {
+                    lastVolume = newValue.intValue();
+                }
+            }
+        });
 
         GridPane.setHgrow(progressBar, Priority.ALWAYS);
+        GridPane.setVgrow(slider, Priority.ALWAYS);
+        gridButtons.setAlignment(Pos.CENTER);
+        GridPane.setHalignment(deviceName, HPos.CENTER);
         grid.add(deviceName, 0, 0);
         grid.add(songName, 0, 1);
-        grid.add(gridButtons, 0, 2);
         gridButtons.add(previous, 0, 0);
         gridButtons.add(playpause, 1, 0);
         gridButtons.add(next, 2, 0);
-        grid.add(listing, 0, 4);
+        grid.add(gridButtons, 0, 2);
+        grid.add(listing, 0, 4, 2, 1);
         listing.getChildren().add(context);
         grid.add(back, 0, 5);
         grid.add(progressBar, 0, 3);
+        grid.add(slider, 1, 0, 1, 3);
+        grid.add(mute, 1, 3);
 
         primaryStage.setScene(new Scene(grid));
         primaryStage.setResizable(false);
         primaryStage.show();
-        previous.setTranslateX(gridButtons.getWidth()/2 - (previous.getWidth() + playpause.getWidth()/2));
-        playpause.setTranslateX(gridButtons.getWidth()/2 - (previous.getWidth() + playpause.getWidth()/2));
-        next.setTranslateX(gridButtons.getWidth()/2 - (previous.getWidth() + playpause.getWidth()/2));
-        deviceName.setTranslateX(grid.getWidth()/2 - deviceName.getLayoutBounds().getWidth()/2);
     }
 
     private void contextAction(MouseEvent event){
@@ -216,20 +276,5 @@ public class UI extends Application {
                 back.setVisible(false);
             }
         }
-    }
-
-    private void updateScroll(){
-        sceneWidth = stage.getWidth();
-        textWidth = new Text(name).getLayoutBounds().getWidth();
-        System.out.println(sceneWidth + " | " + textWidth);
-        startDuration = Duration.ZERO;
-        endDuration = Duration.seconds(7);
-        startKeyValue = new KeyValue(songName.translateXProperty(), sceneWidth - 15 < textWidth ? sceneWidth : 0);
-        startKeyFrame = new KeyFrame(startDuration, startKeyValue);
-        endKeyValue = new KeyValue(songName.translateXProperty(), sceneWidth - 15 < textWidth ? -1.0 * textWidth : 0);
-        endKeyFrame = new KeyFrame(endDuration, endKeyValue);
-        timeline = new Timeline(startKeyFrame, endKeyFrame);
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
     }
 }

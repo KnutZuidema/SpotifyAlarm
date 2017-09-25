@@ -1,13 +1,16 @@
 package win.knutzuidema.spotifyalarm.datatypes;
 
+import org.apache.http.client.methods.RequestBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import win.knutzuidema.spotifyalarm.api.API;
 import win.knutzuidema.spotifyalarm.datatypes.paging.PagingTrack;
 import win.knutzuidema.spotifyalarm.enums.AlbumType;
 import win.knutzuidema.spotifyalarm.enums.DatePrecision;
 import win.knutzuidema.spotifyalarm.interfaces.Serializer;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 
 public class Album extends SpotifyObject implements Serializable, Serializer{
     private static final long serialVersionUID = 0x101;
@@ -109,5 +112,9 @@ public class Album extends SpotifyObject implements Serializable, Serializer{
 
     public int getPopularity() {
         return popularity;
+    }
+
+    public Album completeObject(){
+        return new Album(API.getJSON(RequestBuilder.create("GET").setUri(href).build()));
     }
 }

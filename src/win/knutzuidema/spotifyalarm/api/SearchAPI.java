@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class SearchAPI {
 
-    public Map<String, Paging> search(String query){
+    public static Map<String, Paging> search(String query){
         HttpUriRequest request = API
                 .requestBuilder("GET", "/search")
                 .addParameter("q", query)
@@ -34,7 +34,7 @@ public class SearchAPI {
         return map;
     }
 
-    public PagingAlbum searchAlbum(String query){
+    public static PagingAlbum searchAlbum(String query){
         HttpUriRequest request = API
                 .requestBuilder("GET", "/search")
                 .addParameter("q", query)
@@ -44,7 +44,7 @@ public class SearchAPI {
         return new PagingAlbum(API.getJSON(request).getJSONObject("albums"));
     }
 
-    public PagingArtist searchArtist(String query){
+    public static PagingArtist searchArtist(String query){
         HttpUriRequest request = API
                 .requestBuilder("GET", "/search")
                 .addParameter("q", query)
@@ -54,7 +54,7 @@ public class SearchAPI {
         return new PagingArtist(API.getJSON(request).getJSONObject("artist"));
     }
 
-    public PagingTrack searchTrack(String query){
+    public static PagingTrack searchTrack(String query){
         HttpUriRequest request = API
                 .requestBuilder("GET", "/search")
                 .addParameter("q", query)
@@ -64,7 +64,7 @@ public class SearchAPI {
         return new PagingTrack(API.getJSON(request).getJSONObject("tracks"));
     }
 
-    public PagingPlaylist searchPlaylist(String query){
+    public static PagingPlaylist searchPlaylist(String query){
         HttpUriRequest request = API
                 .requestBuilder("GET", "/search")
                 .addParameter("q", query)

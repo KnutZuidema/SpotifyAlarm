@@ -11,7 +11,7 @@ import java.util.List;
 
 public class AlbumAPI {
 
-    public Album getAlbum(String id) {
+    public static Album getAlbum(String id) {
         HttpUriRequest request = API
                 .requestBuilder("GET", "/albums/" + id)
                 .build();
@@ -19,7 +19,7 @@ public class AlbumAPI {
         return new Album(API.getJSON(request));
     }
 
-    public List<Album> getAlbums(String... ids) {
+    public static List<Album> getAlbums(String... ids) {
         if (ids.length > 20) {
             throw new IllegalArgumentException("max of 20 albums");
         }

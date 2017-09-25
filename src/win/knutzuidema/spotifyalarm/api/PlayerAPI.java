@@ -12,7 +12,7 @@ import java.util.List;
 
 public class PlayerAPI {
 
-    public CursorPagingPlayHistory getRecentlyPlayed(){
+    public static CursorPagingPlayHistory getRecentlyPlayed(){
         HttpUriRequest request = API
                 .requestBuilder("GET", "/player/recently-played")
                 .build();
@@ -20,7 +20,7 @@ public class PlayerAPI {
         return new CursorPagingPlayHistory(API.getJSON(request));
     }
 
-    public List<Device> getAvailableDevices(){
+    public static List<Device> getAvailableDevices(){
         HttpUriRequest request = API
                 .requestBuilder("GET", "/me/player/devices")
                 .build();
@@ -36,7 +36,7 @@ public class PlayerAPI {
         return devices;
     }
 
-    public Player getPlayer(){
+    public static Player getPlayer(){
         HttpUriRequest request = API
                 .requestBuilder("GET", "/me/player")
                 .build();
@@ -44,7 +44,7 @@ public class PlayerAPI {
         return new Player(API.getJSON(request));
     }
 
-    public CurrentlyPlaying getCurrentlyPlaying(){
+    public static CurrentlyPlaying getCurrentlyPlaying(){
         HttpUriRequest request = API
                 .requestBuilder("GET", "/me/player/currently-playing")
                 .build();
@@ -56,7 +56,7 @@ public class PlayerAPI {
         return new CurrentlyPlaying(API.getJSONfromResponse(response));
     }
 
-    public void play(){
+    public static void play(){
         HttpUriRequest request = API
                 .requestBuilder("PUT", "/me/player/play")
                 .build();
@@ -64,7 +64,7 @@ public class PlayerAPI {
         API.getResponse(request);
     }
 
-    public void play(SpotifyObject object){
+    public static void play(SpotifyObject object){
         if(object instanceof User){
             return;
         }
@@ -82,7 +82,7 @@ public class PlayerAPI {
         API.getResponse(request1);
     }
 
-    public void pause(){
+    public static void pause(){
         HttpUriRequest request = API
                 .requestBuilder("PUT", "/me/player/pause")
                 .build();
@@ -90,7 +90,7 @@ public class PlayerAPI {
         API.getResponse(request);
     }
 
-    public void next(){
+    public static void next(){
         HttpUriRequest request = API
                 .requestBuilder("POST", "/me/player/next")
                 .build();
@@ -98,7 +98,7 @@ public class PlayerAPI {
         API.getResponse(request);
     }
 
-    public void previous(){
+    public static void previous(){
         HttpUriRequest request = API
                 .requestBuilder("POST", "/me/player/previous")
                 .build();
@@ -106,7 +106,7 @@ public class PlayerAPI {
         API.getResponse(request);
     }
 
-    public void seek(int ms){
+    public static void seek(int ms){
         HttpUriRequest request = API
                 .requestBuilder("PUT", "/me/player/seek?position_ms=" + ms)
                 .build();
@@ -114,7 +114,7 @@ public class PlayerAPI {
         API.getResponse(request);
     }
 
-    public void setRepeat(RepeatState state){
+    public static void setRepeat(RepeatState state){
         HttpUriRequest request = API
                 .requestBuilder("PUT", "/me/player/repeat?state=" + state.toString())
                 .build();
@@ -122,7 +122,7 @@ public class PlayerAPI {
         API.getResponse(request);
     }
 
-    public void setVolume(int percent){
+    public static void setVolume(int percent){
         HttpUriRequest request = API
                 .requestBuilder("PUT", "/me/player/volume?volume_percent=" + percent)
                 .build();
@@ -130,7 +130,7 @@ public class PlayerAPI {
         API.getResponse(request);
     }
 
-    public void setShuffle(boolean state){
+    public static void setShuffle(boolean state){
         HttpUriRequest request = API
                 .requestBuilder("PUT", "/me/player/shuffle?state=" + state)
                 .build();

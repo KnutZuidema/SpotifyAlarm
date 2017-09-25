@@ -8,7 +8,7 @@ import win.knutzuidema.spotifyalarm.datatypes.paging.PagingPlaylist;
 
 public class BrowseAPI {
 
-    public PagingPlaylist getFeaturedPlaylists(){
+    public static PagingPlaylist getFeaturedPlaylists(){
         HttpUriRequest request = API
                 .requestBuilder("GET", "/browse/featured-playlists")
                 .build();
@@ -18,7 +18,7 @@ public class BrowseAPI {
                 .getJSONObject("playlists"));
     }
 
-    public PagingAlbum getNewReleases() {
+    public static PagingAlbum getNewReleases() {
         HttpUriRequest request = API
                 .requestBuilder("GET", "/browse/new-releases")
                 .build();
@@ -28,7 +28,7 @@ public class BrowseAPI {
                 .getJSONObject("albums"));
     }
 
-    public PagingCategory getCategoriesList(){
+    public static PagingCategory getCategoriesList(){
         HttpUriRequest request = API
                 .requestBuilder("GET", "/browse/categories")
                 .build();
@@ -38,7 +38,7 @@ public class BrowseAPI {
                 .getJSONObject("categories"));
     }
 
-    public Category getCategory(String id){
+    public static Category getCategory(String id){
         HttpUriRequest request = API
                 .requestBuilder("GET", "/browse/categories/" + id)
                 .build();
@@ -47,7 +47,7 @@ public class BrowseAPI {
                 .getJSON(request));
     }
 
-    public PagingPlaylist getCategoryPlaylists(String id){
+    public static PagingPlaylist getCategoryPlaylists(String id){
         HttpUriRequest request = API
                 .requestBuilder("GET", "/browse/categories/" + id + "/playlists")
                 .build();

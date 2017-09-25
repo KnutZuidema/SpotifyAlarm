@@ -63,10 +63,10 @@ public class API {
 
     public static String toQueryString(Collection<?> collection){
         StringBuilder stringBuilder = new StringBuilder();
-        Iterator<?> iter = collection.iterator();
-        for(int i = 0; i < collection.size(); i++){
-            stringBuilder.append(iter.next());
-            if(iter.hasNext()){
+        Object[] array = collection.toArray();
+        for(int i = 0; i < array.length; i++){
+            stringBuilder.append(array[i]);
+            if(i < array.length - 1){
                 stringBuilder.append(',');
             }
         }

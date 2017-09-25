@@ -1,7 +1,9 @@
 package win.knutzuidema.spotifyalarm.datatypes;
 
+import org.apache.http.client.methods.RequestBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import win.knutzuidema.spotifyalarm.api.API;
 import win.knutzuidema.spotifyalarm.datatypes.paging.PagingPlaylistTrack;
 import win.knutzuidema.spotifyalarm.interfaces.Serializer;
 
@@ -66,5 +68,9 @@ public class Playlist extends SpotifyObject implements Serializable, Serializer 
 
     public PagingPlaylistTrack getTracks() {
         return tracks;
+    }
+
+    public Playlist completeObject(){
+        return new Playlist(API.getJSON(RequestBuilder.create("GET").setUri(href).build()));
     }
 }

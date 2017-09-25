@@ -5,7 +5,7 @@ import win.knutzuidema.spotifyalarm.datatypes.User;
 
 public class UserAPI {
 
-    public User getUser(String id){
+    public static User getUser(String id){
         HttpUriRequest request = API
                 .requestBuilder("GET", "/users/" + id)
                 .build();

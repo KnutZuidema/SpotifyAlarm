@@ -9,7 +9,7 @@ import win.knutzuidema.spotifyalarm.datatypes.Playlist;
 
 public class PlaylistAPI {
 
-    public Playlist getPlaylist(String userID, String playlistID){
+    public static Playlist getPlaylist(String userID, String playlistID){
         HttpUriRequest request = API
                 .requestBuilder("GET", "/users/" + userID + "/playlists/" + playlistID)
                 .build();
@@ -17,7 +17,7 @@ public class PlaylistAPI {
         return new Playlist(API.getJSON(request));
     }
 
-    public PagingPlaylistTrack getPlaylistTracks(String userID, String playlistID){
+    public static PagingPlaylistTrack getPlaylistTracks(String userID, String playlistID){
         HttpUriRequest request = API
                 .requestBuilder("GET", "/users/" + userID + "/playlists/" + playlistID + "/tracks")
                 .build();
@@ -25,7 +25,7 @@ public class PlaylistAPI {
         return new PagingPlaylistTrack(API.getJSON(request));
     }
 
-    public Playlist createPlaylist(String userID, String name){
+    public static Playlist createPlaylist(String userID, String name){
         HttpUriRequest request = API
                 .requestBuilder("POST", "/users/" + userID + "/playlists")
                 .addHeader("Content-Type", "application/json")
@@ -38,7 +38,7 @@ public class PlaylistAPI {
         return new Playlist(API.getJSON(request));
     }
 
-    public Playlist createPlaylist(String userID, String name, boolean isPublic, boolean isCollaborative, String description){
+    public static Playlist createPlaylist(String userID, String name, boolean isPublic, boolean isCollaborative, String description){
         HttpUriRequest request = API
                 .requestBuilder("POST", "/users/" + userID + "/playlists")
                 .addHeader("Content-Type", "application/json")
@@ -54,7 +54,7 @@ public class PlaylistAPI {
         return new Playlist(API.getJSON(request));
     }
 
-    public PagingPlaylist getUserPlaylists(String userID){
+    public static PagingPlaylist getUserPlaylists(String userID){
         HttpUriRequest request = API
                 .requestBuilder("GET", "/usesrs/" + userID + "/playlists")
                 .build();
@@ -62,7 +62,7 @@ public class PlaylistAPI {
         return new PagingPlaylist(API.getJSON(request));
     }
 
-    public void setName(String userID, String playlistID, String name){
+    public static void setName(String userID, String playlistID, String name){
         HttpUriRequest request = API
                 .requestBuilder("PUT", "/users/" + userID + "/playlists/" + playlistID)
                 .addHeader("Content-Type", "application/json")
@@ -75,7 +75,7 @@ public class PlaylistAPI {
         API.getResponse(request);
     }
 
-    public void setPublic(String userID, String playlistID, boolean isPublic){
+    public static void setPublic(String userID, String playlistID, boolean isPublic){
         HttpUriRequest request = API
                 .requestBuilder("PUT", "/users/" + userID + "/playlists/" + playlistID)
                 .addHeader("Content-Type", "application/json")
@@ -88,7 +88,7 @@ public class PlaylistAPI {
         API.getResponse(request);
     }
 
-    public void setCollaborative(String userID, String playlistID, boolean isCollaborative){
+    public static void setCollaborative(String userID, String playlistID, boolean isCollaborative){
         HttpUriRequest request = API
                 .requestBuilder("PUT", "/users/" + userID + "/playlists/" + playlistID)
                 .addHeader("Content-Type", "application/json")
@@ -101,7 +101,7 @@ public class PlaylistAPI {
         API.getResponse(request);
     }
 
-    public void setDescription(String userID, String playlistID, String description){
+    public static void setDescription(String userID, String playlistID, String description){
         HttpUriRequest request = API
                 .requestBuilder("PUT", "/users/" + userID + "/playlists/" + playlistID)
                 .addHeader("Content-Type", "application/json")
@@ -114,7 +114,7 @@ public class PlaylistAPI {
         API.getResponse(request);
     }
 
-    public void addTracks(String userID, String playlistID, String... uris){
+    public static void addTracks(String userID, String playlistID, String... uris){
         if(uris.length > 100){
             throw new IllegalArgumentException("max of 100 tracks");
         }
@@ -131,7 +131,7 @@ public class PlaylistAPI {
         API.getResponse(request);
     }
 
-    public void removeTracks(String userID, String playlistID, String... uris){
+    public static void removeTracks(String userID, String playlistID, String... uris){
         if(uris.length > 100){
             throw new IllegalArgumentException("max of 100 tracks");
         }
@@ -153,7 +153,7 @@ public class PlaylistAPI {
         API.getResponse(request);
     }
 
-    public boolean isFollowing(String userID, String playlistID, String followerID){
+    public static boolean isFollowing(String userID, String playlistID, String followerID){
         HttpUriRequest request = API
                 .requestBuilder("GET", "/users/" + userID + "/playlists/" + playlistID + "/followers/contains")
                 .addParameter("ids", followerID)

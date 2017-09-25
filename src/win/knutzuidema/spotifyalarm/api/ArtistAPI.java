@@ -14,7 +14,7 @@ import java.util.List;
 
 public class ArtistAPI {
 
-    public Artist getArtist(String id){
+    public static Artist getArtist(String id){
 
         HttpUriRequest request = API
                 .requestBuilder("GET", "/artists/" + id)
@@ -23,7 +23,7 @@ public class ArtistAPI {
         return new Artist(API.getJSON(request));
     }
 
-    public List<Artist> getArtists(String... ids){
+    public static List<Artist> getArtists(String... ids){
         if(ids.length > 50){
             throw new IllegalArgumentException("max of 50 artists");
         }
@@ -52,7 +52,7 @@ public class ArtistAPI {
         return artists;
     }
 
-    public List<Artist> getRelatedArtists(String id){
+    public static List<Artist> getRelatedArtists(String id){
         HttpUriRequest request = API
                 .requestBuilder("GET", "/artists/" + id + "/related-artists")
                 .build();
@@ -67,7 +67,7 @@ public class ArtistAPI {
         return artists;
     }
 
-    public PagingAlbum getAlbums(String id, @Nullable AlbumType... types){
+    public static PagingAlbum getAlbums(String id, @Nullable AlbumType... types){
         StringBuilder value = new StringBuilder();
         if(types != null){
             for(int i = 0; i < types.length; i++) {
@@ -86,7 +86,7 @@ public class ArtistAPI {
         return new PagingAlbum(API.getJSON(request));
     }
 
-    public List<Track> getTopTracks(String id){
+    public static List<Track> getTopTracks(String id){
 
         HttpUriRequest request = API
                 .requestBuilder("GET", "/artists/" + id + "top-tracks")

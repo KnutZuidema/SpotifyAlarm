@@ -11,7 +11,7 @@ import java.util.List;
 
 public class TrackAPI {
 
-    public Track getTrack(String id){
+    public static Track getTrack(String id){
         HttpUriRequest request = API
                 .requestBuilder("GET", "/tracks/" + id)
                 .build();
@@ -19,7 +19,7 @@ public class TrackAPI {
         return new Track(API.getJSON(request));
     }
 
-    public List<Track> getTracks(String... ids){
+    public static List<Track> getTracks(String... ids){
         if(ids.length > 50){
             throw new IllegalArgumentException("max of 50 tracks per request");
         }

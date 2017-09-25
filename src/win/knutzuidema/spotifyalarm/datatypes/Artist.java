@@ -1,7 +1,9 @@
 package win.knutzuidema.spotifyalarm.datatypes;
 
+import org.apache.http.client.methods.RequestBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import win.knutzuidema.spotifyalarm.api.API;
 import win.knutzuidema.spotifyalarm.interfaces.Serializer;
 
 import java.io.Serializable;
@@ -50,5 +52,9 @@ public class Artist extends SpotifyObject implements Serializable, Serializer {
 
     public int getPopularity() {
         return popularity;
+    }
+
+    public Artist completeObject(){
+        return new Artist(API.getJSON(RequestBuilder.create("GET").setUri(href).build()));
     }
 }
