@@ -4,6 +4,7 @@ import org.apache.http.client.methods.RequestBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import win.knutzuidema.spotifyalarm.api.API;
+import win.knutzuidema.spotifyalarm.api.Authentication;
 import win.knutzuidema.spotifyalarm.datatypes.paging.PagingPlaylistTrack;
 import win.knutzuidema.spotifyalarm.interfaces.Serializer;
 
@@ -71,6 +72,6 @@ public class Playlist extends SpotifyObject implements Serializable, Serializer 
     }
 
     public Playlist completeObject(){
-        return new Playlist(API.getJSON(RequestBuilder.create("GET").setUri(href).build()));
+        return new Playlist(API.getJSON(RequestBuilder.create("GET").setUri(href).addHeader(Authentication.bearerAuth()).build()));
     }
 }

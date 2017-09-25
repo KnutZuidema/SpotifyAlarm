@@ -4,9 +4,11 @@ import org.apache.http.client.methods.RequestBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import win.knutzuidema.spotifyalarm.api.API;
+import win.knutzuidema.spotifyalarm.api.Authentication;
 import win.knutzuidema.spotifyalarm.interfaces.Serializer;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class Artist extends SpotifyObject implements Serializable, Serializer {
     private static final long serialVersionUID = 0x102;
@@ -55,6 +57,29 @@ public class Artist extends SpotifyObject implements Serializable, Serializer {
     }
 
     public Artist completeObject(){
-        return new Artist(API.getJSON(RequestBuilder.create("GET").setUri(href).build()));
+        return new Artist(API.getJSON(RequestBuilder.create("GET").setUri(href).addHeader(Authentication.bearerAuth()).build()));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Artist artist = (Artist) o;
+
+        if (!super.equals(artist)) return false;
+        if (getFollowers() != artist.getFollowers()) return false;
+        if (getPopularity() != artist.getPopularity()) return false;
+        if (!Arrays.equals(getGenres(), artist.getGenres())) return false;
+        return Arrays.equals(getImages(), artist.getImages());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getFollowers();
+        result = 31 * result + Arrays.hashCode(getGenres());
+        result = 31 * result + Arrays.hashCode(getImages());
+        result = 31 * result + getPopularity();
+        return result;
     }
 }

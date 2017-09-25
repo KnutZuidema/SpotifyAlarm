@@ -29,4 +29,22 @@ public class PagingTrack extends Paging implements Serializable, Serializer {
     public List<Track> getItems() {
         return items;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        PagingTrack that = (PagingTrack) o;
+
+        return getItems() != null ? getItems().equals(that.getItems()) : that.getItems() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (getItems() != null ? getItems().hashCode() : 0);
+        return result;
+    }
 }

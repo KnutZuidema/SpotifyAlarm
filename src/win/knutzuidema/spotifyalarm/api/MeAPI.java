@@ -2,8 +2,8 @@ package win.knutzuidema.spotifyalarm.api;
 
 import org.apache.http.client.methods.HttpUriRequest;
 import org.json.JSONArray;
-import win.knutzuidema.spotifyalarm.datatypes.paging.*;
 import win.knutzuidema.spotifyalarm.datatypes.User;
+import win.knutzuidema.spotifyalarm.datatypes.paging.*;
 import win.knutzuidema.spotifyalarm.enums.TimeFrame;
 
 import java.util.Arrays;
@@ -179,12 +179,12 @@ public class MeAPI {
         API.getResponse(request);
     }
 
-    public static PagingAlbum getSavedAlbums(){
+    public static PagingSavedAlbum getSavedAlbums(){
         HttpUriRequest request = API
                 .requestBuilder("GET", "/me/albums")
                 .build();
 
-        return new PagingAlbum(API
+        return new PagingSavedAlbum(API
                 .getJSON(request));
     }
 

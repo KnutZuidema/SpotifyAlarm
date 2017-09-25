@@ -36,4 +36,26 @@ public class Context implements Serializable, Serializer {
     public JSONObject getExternalURLs() {
         return externalURLs;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Context context = (Context) o;
+
+        if (getType() != context.getType()) return false;
+        if (getUri() != null ? !getUri().equals(context.getUri()) : context.getUri() != null) return false;
+        if (getHref() != null ? !getHref().equals(context.getHref()) : context.getHref() != null) return false;
+        return getExternalURLs() != null ? getExternalURLs().equals(context.getExternalURLs()) : context.getExternalURLs() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getType() != null ? getType().hashCode() : 0;
+        result = 31 * result + (getUri() != null ? getUri().hashCode() : 0);
+        result = 31 * result + (getHref() != null ? getHref().hashCode() : 0);
+        result = 31 * result + (getExternalURLs() != null ? getExternalURLs().hashCode() : 0);
+        return result;
+    }
 }

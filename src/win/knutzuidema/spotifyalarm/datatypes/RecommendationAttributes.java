@@ -1,6 +1,12 @@
 package win.knutzuidema.spotifyalarm.datatypes;
 
-public class RecommendationAttributes {
+import win.knutzuidema.spotifyalarm.interfaces.Serializer;
+
+import java.io.Serializable;
+
+public class RecommendationAttributes implements Serializable, Serializer{
+    private static final long serialVersionUID = 0xF00;
+
     private Float acousticness;
     private Float danceability;
     private Integer duration_ms;

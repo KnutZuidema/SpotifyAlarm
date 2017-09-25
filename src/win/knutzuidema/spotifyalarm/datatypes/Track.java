@@ -4,9 +4,11 @@ import org.apache.http.client.methods.RequestBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import win.knutzuidema.spotifyalarm.api.API;
+import win.knutzuidema.spotifyalarm.api.Authentication;
 import win.knutzuidema.spotifyalarm.interfaces.Serializer;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class Track extends SpotifyObject implements Serializable, Serializer {
     private static final long serialVersionUID = 0x104;
@@ -101,6 +103,44 @@ public class Track extends SpotifyObject implements Serializable, Serializer {
     }
 
     public Track completeObject(){
-        return new Track(API.getJSON(RequestBuilder.create("GET").setUri(href).build()));
+        return new Track(API.getJSON(RequestBuilder.create("GET").setUri(href).addHeader(Authentication.bearerAuth()).build()));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Track track = (Track) o;
+
+        if (!super.equals(track)) return false;
+        if (getDiscNumber() != track.getDiscNumber()) return false;
+        if (getDuration() != track.getDuration()) return false;
+        if (isExplicit() != track.isExplicit()) return false;
+        if (isPlayable() != track.isPlayable()) return false;
+        if (getTrackNumber() != track.getTrackNumber()) return false;
+        if (getAlbum() != null ? !getAlbum().equals(track.getAlbum()) : track.getAlbum() != null) return false;
+        if (!Arrays.equals(getArtists(), track.getArtists())) return false;
+        if (!Arrays.equals(getAvailableMarkets(), track.getAvailableMarkets())) return false;
+        if (getLinkedFrom() != null ? !getLinkedFrom().equals(track.getLinkedFrom()) : track.getLinkedFrom() != null)
+            return false;
+        return getPreviewURL() != null ? getPreviewURL().equals(track.getPreviewURL()) : track.getPreviewURL() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getAlbum() != null ? getAlbum().hashCode() : 0;
+        result = 31 * result + Arrays.hashCode(getArtists());
+        result = 31 * result + Arrays.hashCode(getAvailableMarkets());
+        result = 31 * result + getDiscNumber();
+        result = 31 * result + getDuration();
+        result = 31 * result + (isExplicit() ? 1 : 0);
+        result = 31 * result + (getExternalIDs() != null ? getExternalIDs().hashCode() : 0);
+        result = 31 * result + (isPlayable() ? 1 : 0);
+        result = 31 * result + (getLinkedFrom() != null ? getLinkedFrom().hashCode() : 0);
+        result = 31 * result + (getPreviewURL() != null ? getPreviewURL().hashCode() : 0);
+        result = 31 * result + getTrackNumber();
+        result = 31 * result + getPopularity();
+        return result;
     }
 }

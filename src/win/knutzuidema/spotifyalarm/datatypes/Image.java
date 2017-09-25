@@ -29,4 +29,24 @@ public class Image implements Serializable, Serializer {
     public String getUrl() {
         return url;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Image image = (Image) o;
+
+        if (getHeight() != image.getHeight()) return false;
+        if (getWidth() != image.getWidth()) return false;
+        return getUrl() != null ? getUrl().equals(image.getUrl()) : image.getUrl() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getHeight();
+        result = 31 * result + getWidth();
+        result = 31 * result + (getUrl() != null ? getUrl().hashCode() : 0);
+        return result;
+    }
 }

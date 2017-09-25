@@ -10,12 +10,13 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
-import static win.knutzuidema.spotifyalarm.enums.Config.*;
 
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+
+import static win.knutzuidema.spotifyalarm.enums.Config.*;
 
 public class Authentication {
 
@@ -85,11 +86,11 @@ public class Authentication {
         }
     }
 
-    static Header bearerAuth(){
+    public static Header bearerAuth(){
         return new BasicHeader("Authorization", "Bearer " + getAccessToken());
     }
 
-    static Header basicAuth(){
+    public static Header basicAuth(){
         return new BasicHeader("Authorization","Basic " +
                 Base64.getEncoder().encodeToString((CLIENT_ID.toString() + ":" + CLIENT_SECRET.toString()).getBytes()));
     }

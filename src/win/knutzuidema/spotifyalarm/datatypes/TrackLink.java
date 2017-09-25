@@ -35,4 +35,25 @@ public class TrackLink implements Serializable, Serializer{
     public String getUri() {
         return uri;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TrackLink trackLink = (TrackLink) o;
+
+        if (getHref() != null ? !getHref().equals(trackLink.getHref()) : trackLink.getHref() != null) return false;
+        if (getId() != null ? !getId().equals(trackLink.getId()) : trackLink.getId() != null) return false;
+        return getUri() != null ? getUri().equals(trackLink.getUri()) : trackLink.getUri() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getExternalURLs() != null ? getExternalURLs().hashCode() : 0;
+        result = 31 * result + (getHref() != null ? getHref().hashCode() : 0);
+        result = 31 * result + (getId() != null ? getId().hashCode() : 0);
+        result = 31 * result + (getUri() != null ? getUri().hashCode() : 0);
+        return result;
+    }
 }
